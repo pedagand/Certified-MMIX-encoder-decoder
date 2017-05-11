@@ -2,14 +2,14 @@ Require Import Bool List Arith Nat Coq.Arith.Div2.
 Import ListNotations.
 
 
-
+(*=bitn *) 
 Fixpoint bit_n (l : list bool) : nat :=
   match l with
     | [] => 0
     | a :: tl => 2 * bit_n tl + Nat.b2n a
   end.
-
-
+(*=End *)
+(*=nbit *) 
 Fixpoint n_bit (n : nat) (k : nat) : option (list bool) :=
     match n with
       | 0 => match k with
@@ -21,7 +21,7 @@ Fixpoint n_bit (n : nat) (k : nat) : option (list bool) :=
                   | Some l => Some (Nat.odd k :: l)
                 end
     end.
-
+(*=End *)
 Compute pow 2 8.
 Check leb 2 3.
 
