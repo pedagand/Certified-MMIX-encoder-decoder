@@ -365,7 +365,10 @@ Qed.
   
 Lemma tag_beq_different : forall (t1 t2 : tag), tag_beq t1 t2 = true -> t1 = t2.
 Proof.
-Admitted.
+  intros.
+  destruct t1;  destruct t; destruct t2; destruct t; try reflexivity; try discriminate.
+Qed.
+  
     
 
 (* maybe it's not usefull to distinguish the special register than the 
