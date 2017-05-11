@@ -1,0 +1,117 @@
+\documentclass {article}
+
+%% ** Packages
+
+\usepackage{natbib}
+\usepackage[utf8]{inputenc}
+\usepackage[french]{babel}
+\usepackage{amsthm, amssymb, amsmath}
+\usepackage{hyperref}
+\usepackage{mathpartir}
+
+%% ** OCaml listings
+
+\usepackage{xcolor}
+\usepackage{listings}
+\lstset{
+  language=[Objective]Caml,
+  %% emph={[2]Nil,Cons,FZe,FSu,ze,su,Ze,Su},
+  %% emphstyle={[2]\Constructor},
+  %% emph={[3]lookup,failwith},
+  %% emphstyle={[3]\Function},
+  %% emph={[4]vec,fin,nat,list,tree,completeTree},
+  %% emphstyle={[4]\Canonical},
+  morecomment=[s]{(*}{*)},
+  rangeprefix=\(\*\=,
+  rangesuffix=\ \*\),
+  includerangemarker=false,
+  extendedchars=\true,
+  inputencoding=utf8,
+  showspaces=false,
+  showstringspaces=false,
+  showtabs=false,
+  basicstyle=\ttfamily\small,
+  framesep=4mm,
+  moredelim=*[s][\itshape]{(*}{*)},
+  moredelim=[is][\textcolor{darkgray}]{§}{§},
+  escapechar=°,
+  keywordstyle=\color[rgb]{0.627451, 0.125490, 0.941176},
+  stringstyle=\color[rgb]{0.545098, 0.278431, 0.364706},
+  commentstyle=\color[rgb]{0.698039, 0.133333, 0.133333},
+  numberstyle=\color[rgb]{0.372549, 0.619608, 0.627451},
+  boxpos=t,
+  literate= {'a}{{$\alpha$}}1%
+  {->}{{${\to}$}}2
+  {*}{{${\times}$}}1
+  {::}{{${:\::}$}}1
+}
+
+\newcommand{\codefrom}[3]
+           {\lstinputlisting[linerange={#3}-End]{../#1/#2.v}}
+           
+%% ** Theorem styles 
+           
+           
+\newtheorem{theorem}{Théorème}
+\newtheorem{proposition}{Proposition}
+\newtheorem{lemma}{Lemme}
+
+\theoremstyle{definition}
+\newtheorem{definition}{Définition}
+\newtheorem{example}{Exemple}
+
+\theoremstyle{remark}
+\newtheorem{remark}{Remarque}
+\newtheorem{para}{} 
+
+%% ** commands
+
+\newcommand{\todo}[1]{\textcolor{red}{#1}}
+\newcommand{\attention}[1]{\textcolor{orange}{#1}}
+\newcommand{\question}[1]{\textcolor{green}{#1}}
+\newcommand{\etc}{\textit{etc.}}
+
+\newenvironment{bnf}
+               {\[\begin{array}{lcl@{\qquad}r}}
+               {\end{array}\]}
+               
+\newcommand{\fun}[1]{\lstinline!#1!}
+%% ** Title
+
+\title{Assembleur x86 certifié}
+\author{Roman Delgado}
+\date{}
+
+
+\begin{document}
+
+\maketitle
+
+
+%% ** Abstract 
+
+\vfill
+\setcounter{tocdepth}{2}
+\tableofcontents
+\vfill
+
+
+\section{Introduction}
+
+Les motivations ect...
+
+\section{MMIX et représentation des données}
+
+
+
+%TODO changer les affichages des essembles
+\section{Conversion N liste B}
+
+\section{Conversion Opcode liste B}
+
+\section{Encode Decode}
+
+\section{Conclusion}
+
+\end{document}
+               
