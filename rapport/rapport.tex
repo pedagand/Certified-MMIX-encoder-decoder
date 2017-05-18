@@ -98,12 +98,22 @@
 
 \section{Introduction}
 
-Les motivations ect...
+
+
+
 
 \section{MMIX et représentation des données}
+\label{partieMMIX}
+
+Le langage d'assembleur MMIX à été crée par Donald Knuth en 1999.
+Pour l'instant il n'existe aucune implémentation concrète de MMIX il
+à été crée et utilisée dans un but pédagogique.
+
+\subsection{Définition MMIX}
 
 
-%TODO changer les affichages des essembles
+il est le successeur du langage MIX également conçu par donald Knuth 8 ans plus tot
+
 \section{Conversion N liste B}
 
 Code de bitn
@@ -128,9 +138,32 @@ et celui dans le sens opposé
 
 
 \section{Conversion Opcode liste B}
+\label{partieOpcode}
+
+La première étape d'encodage ou de décodage d'une instruction se situe
+au niveau de l'étiquette. Dans le cas de MMIX comme vus en section \ref{partieMMIX}
+une étiquette est associée à un unique opcode. Une façon de stocker cette
+correspondance est d'utilisé des paires.
+\codefrom{src}{association_list}{assoc}
+
+Nous avons maintenant une représentation pour les associations il nous faut
+maintenant stocker l'ensemble de celles ci. Etant donné que le nombre
+d'instructions est de 256 utilisé une représentation sous forme
+de liste est envisageable. Un argument supplémentaire est que la liste
+est un type inductif qui nous permettra de raisonner plus aisement
+lors des preuves étant donné sa relative simplicité.
+Nous obtenons donc le type suivant pour représenté notre collection d'association:
+
+\codefrom{src}{association_list}{tag_opcode_assoc}
+
+\remark{Pourquoi ne pas utiliser un dictionnaire, parceque ça ferait que dans un sens }
+
+\remark{}
 
 
-La première étape d'encodage ou de décodage d'une instruction est de
+
+%TODO faire un paragraphe de pk il faut pas nécéssairement plus d'informations dans la liste
+% d'association avec notre représentation des données.
 
 
 Afin de convertir l'ensemble opérateurs en binaire il nous faut
