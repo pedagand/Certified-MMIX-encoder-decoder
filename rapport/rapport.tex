@@ -113,10 +113,38 @@ Code de nbit
 \codefrom{src}{binary}{nbit}
 
 
+Parler du fait que pour ces lemme on a des effets de bords dont on est obligé
+de faire des lemmes en prennant cela en compte 
+
+Le but est de prouver un Lemme de cette forme
+\codefrom{src}{binary}{nbitn}
+
+et celui dans le sens opposé 
+\codefrom{src}{binary}{bitnbit}
+
+
+
 
 
 
 \section{Conversion Opcode liste B}
+
+
+La première étape d'encodage ou de décodage d'une instruction est de
+
+
+Afin de convertir l'ensemble opérateurs en binaire il nous faut
+un moyens de stocker cette correspondance.
+Ici le nombre d'étiquettes distinctes est de 256 ce qui est un nombre
+assez faible. Une liste d'association se révèle ici une solution viable
+étant donné que la recherche
+
+
+
+Pourquoi ne pas utiliser de dictionnaire, parceque nous pourrons utiliser
+la liste pour obtenir une le code binaire associé à une étiquette mais aussi faire
+l'opération inverse
+
 
 \section{Encode Decode}
 
