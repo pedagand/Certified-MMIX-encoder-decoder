@@ -101,14 +101,22 @@
 
 
 
-
+%%--------------------------------------MMIX et représentation des données-----------------
 \section{MMIX et représentation des données}
 \label{partieMMIX}
 
+\todo{finir cette introduction}
 Le langage d'assembleur MMIX à été crée par Donald Knuth en 1999.
 Pour l'instant il n'existe aucune implémentation concrète de MMIX il
 à été crée et utilisée dans un but pédagogique.
 
+
+
+
+
+
+
+%%-------------Definition---------------
 \subsection{Définition MMIX}
 
 Dans cette section il sera question de définir la syntaxe des instructions MMIX.
@@ -143,12 +151,16 @@ de plus grande taille avec les formes d'instructions suivantes:\\
   \hline
 \end{tabular}
 
+
+
+
+
+%%-------------Representation---------------
 \subsection{Représentation des données}
 \label{representation des donnees}
 \todo{faire une phrase d'intro}
 
 Une représentation intuitive des operandes serait de les déclarer de la manière suivante,
-
 
 
 Afin de faciliter les preuves pour faire un premier travail en hauteur, j'ai jugé nécéssaire
@@ -179,6 +191,12 @@ En voici un exemple pour les instructions avec 3 opérandes représentants des r
 Nous obtenons donc le type suivant pour les instructions:
 \codefrom{src}{ast_instructions}{instruction}
 
+
+
+
+
+
+%%-------------Egalité---------------
 \subsection{Egalité entre deux éléments d'un type de donnée}
 Avant de passer à la section suivante attardons nous sur l'égalité de deux éléments de même type.
 Si l'on souhaite définir une égalité le type de donnée suivant :
@@ -201,6 +219,7 @@ automatiquement, la voici:
 
 
 
+%%-------------Lemmes---------------
 \subsection{Lemmes}
 Voici un premier lemme qui nous sera très utile par la suite:
 \codefrom{src}{ast_instructions}{tag_beq_different}
@@ -212,8 +231,16 @@ de cette égalité dans le monde propositionnel.
 
 
 
+
+
+
+
 %%----------------------------------------Section Conversion N liste B -----------------------------
 \section{Conversion N liste B}
+
+
+
+
 
 Code de bitn
 \codefrom{src}{binary}{bitn}
