@@ -70,8 +70,10 @@ Qed.
      
 
 (* first proof that we need on binary representation *)
+(*=nbitn *)
 Theorem n_bit_n : forall (l : list bool) (n k : nat),
-                    n_bit n k = Some l -> bit_n l = k.
+    n_bit n k = Some l -> bit_n l = k.
+(*=End *)
 Proof.
   assert (I : forall (l : list bool) (n k : nat), n_bit n k = Some l -> bit_n l = k).
   {
@@ -112,8 +114,10 @@ Qed.
 
 
 (* second proof *)
+(*=bitnbit *)
 Theorem bit_n_bit : forall (l : list bool) (n : nat),
-                      n = length l -> (n_bit n (bit_n l)) = Some l.
+    n = length l -> (n_bit n (bit_n l)) = Some l.
+(*=End *)
 Proof.
   assert (I : forall (l : list bool) (n : nat), n = length l -> n_bit n (bit_n l) = Some l).
   {

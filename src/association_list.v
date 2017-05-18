@@ -4,8 +4,10 @@ Require Import Mmx.ast_instructions.
 
 Check (1,2).
 Check pair nat nat.
+(*=tag_opcode_assoc *)
 Definition tag_opcode_assoc :=
   list (tag * nat).
+(*=End *)
 
 Scheme Equality for list.
 Check list_beq.
