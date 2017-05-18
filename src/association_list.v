@@ -22,6 +22,7 @@ Check list_beq.
 
 
 (* actually this is a good name for this function :p *)
+(*=lookup *)
 Fixpoint lookup (t : tag) (l : tag_opcode_assoc) : option nat :=
   match l with
     | [] => None
@@ -29,7 +30,9 @@ Fixpoint lookup (t : tag) (l : tag_opcode_assoc) : option nat :=
                       then Some n
                       else lookup t tl
   end.
+(*=End *)
 (* actually this is a good name for this function :p *)
+(*=lookdown *)
 Fixpoint lookdown (n : nat) (l : tag_opcode_assoc) : option tag :=
   match l with
     | [] => None
@@ -37,6 +40,7 @@ Fixpoint lookdown (n : nat) (l : tag_opcode_assoc) : option tag :=
                       then Some t
                       else lookdown n tl
   end.
+(*=End *)
 
 (* this table is an association list of type tag_opcode_assoc with every associations that can be made in our langage *)
 Definition encdec : tag_opcode_assoc := 
