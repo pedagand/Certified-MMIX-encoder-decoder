@@ -2,16 +2,12 @@ Require Import List Nat Arith.
 Import ListNotations.
 Require Import Mmx.ast_instructions.
 
-Check (1,2).
-Check pair nat nat.
-(*=assoc *)
+
 Definition assoc : Set :=
   tag * nat.
-(*=End *)
-(*=tag_opcode_assoc *)
+
 Definition tag_opcode_assoc :=
   list assoc.
-(*=End *)
 
 Scheme Equality for list.
 Check list_beq.
@@ -22,7 +18,6 @@ Check list_beq.
 
 
 (* actually this is a good name for this function :p *)
-(*=lookup *)
 Fixpoint lookup (t : tag) (l : tag_opcode_assoc) : option nat :=
   match l with
     | [] => None
@@ -30,9 +25,7 @@ Fixpoint lookup (t : tag) (l : tag_opcode_assoc) : option nat :=
                       then Some n
                       else lookup t tl
   end.
-(*=End *)
 (* actually this is a good name for this function :p *)
-(*=lookdown *)
 Fixpoint lookdown (n : nat) (l : tag_opcode_assoc) : option tag :=
   match l with
     | [] => None
@@ -40,7 +33,6 @@ Fixpoint lookdown (n : nat) (l : tag_opcode_assoc) : option tag :=
                       then Some t
                       else lookdown n tl
   end.
-(*=End *)
 
 (* this table is an association list of type tag_opcode_assoc with every associations that can be made in our langage *)
 Definition encdec : tag_opcode_assoc := 
@@ -299,38 +291,6 @@ Definition encdec : tag_opcode_assoc :=
 (tag_u(SYNC),226)
 ].
 
-
-
-
-Theorem lookup_encdec : forall (t : tag), exists n,
-                          lookup t encdec = Some n.
-Proof.
-  destruct t.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.
-  -destruct t;
-     simpl; eexists; auto.   
-Qed.
 
 
 Require Import Bool.
@@ -615,6 +575,7 @@ Proof.
   intros f.
   unfold forall_tag.
   intros H.
+  
   repeat (apply andb_prop in H; destruct H).
   repeat (apply andb_prop in H10; destruct H10).
   repeat (apply andb_prop in H9; destruct H9).
@@ -872,302 +833,73 @@ Proof.
 Qed.
   
 
-Definition lookdown_encdecP : bool :=
+Definition lookdown_encdec : bool :=
   forall_bounded 226 (fun n =>                     
                       forall_tag (fun t => imply (eq_mtag (lookdown n encdec) (Some t))
                                                  (eq_mnat (lookup t encdec) (Some n)))).
-Definition lookdown_encdecP' : bool :=
+Definition lookup_encdec : bool :=
   forall_bounded 226 (fun n =>                     
                       forall_tag (fun t => imply (eq_mnat (lookup t encdec) (Some n))
                                                  (eq_mtag (lookdown n encdec) (Some t)))).
 
-Lemma lookdown_n_inf_7 : forall (n : nat) (t : tag), lookdown n encdec = Some t -> n <=226.
+Lemma lookdown_encdec_true : lookdown_encdec = true.
+Proof. vm_compute; reflexivity. Qed.
+
+Lemma lookup_encdec_true : lookup_encdec = true.
+Proof. vm_compute; reflexivity. Qed.
+
+Lemma lookdown_encdecP: 
+  reflect (forall (n : nat), n <= 226 ->
+            forall (t : tag),
+              lookdown n encdec = Some t ->
+              lookup t encdec = Some n)
+          lookdown_encdec.
 Proof.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-    destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  destruct n. intros. repeat (apply le_n_S). apply Peano.le_0_n.
-  intros. simpl in H. discriminate.
-Qed.
-  
-
-
-
-
-Theorem lookdown_encdec : forall (n : nat) (t : tag), lookdown n encdec = Some t -> lookup t encdec = Some n.
-Proof.
-  SearchAbout (_ < _ \/ _).
-  assert (reflect (forall (n : nat), n <= 226 -> forall
-                       (t : tag), lookdown n encdec = Some t -> lookup t encdec = Some n)
-                  lookdown_encdecP).
+unfold lookdown_encdec.
+apply forall_finP.        
+intro n.
+apply forall_tagP.
+intros t.
+apply implyP.
+- assert (reflect (lookdown n encdec = Some t) (eq_mtag (lookdown n encdec) (Some t))).
   {
-    unfold lookdown_encdecP.
-    SearchAbout forall_bounded.
-    Check forall_finP.
-    apply forall_finP.        
-    intro n.
-    Check forall_tag.
-    apply forall_tagP.
-    SearchAbout imply.
-    intros t.
-    apply implyP.
-    -assert (reflect (lookdown n encdec = Some t) (eq_mtag (lookdown n encdec) (Some t))).
-    {
-      apply iff_reflect.
-      apply iff_to_and.
-      split.
-      +intros.
-       rewrite H.
-       simpl.
-       rewrite tag_beq_reflexivity.
-       reflexivity.
-      +intros.
-       apply eq_mtag_equiv in H.
-       exact H.       
-    }
-    exact H.
-    -assert (reflect (lookup t encdec = Some n) (eq_mnat (lookup t encdec) (Some n))).
-    {
-      apply iff_reflect.
-      apply iff_to_and.
-      split.
-      -intros.
-      rewrite H.
-      simpl.
-      Search (_ =? _).
-      rewrite <- beq_nat_refl.
-      reflexivity.
-      -intros.
-       apply eq_mnat_equiv in H.
-       exact H.
-    }
-    exact H.
+    apply iff_reflect.
+    apply iff_to_and.
+    split.
+    +intros.
+     rewrite H.
+     simpl.
+     rewrite tag_beq_reflexivity.
+     reflexivity.
+    +intros.
+     apply eq_mtag_equiv in H.
+     exact H.       
   }
+  exact H.
+-assert (reflect (lookup t encdec = Some n) (eq_mnat (lookup t encdec) (Some n))).
+ {
+   apply iff_reflect.
+   apply iff_to_and.
+   split.
+   -intros.
+    rewrite H.
+    simpl.
+    Search (_ =? _).
+    rewrite <- beq_nat_refl.
+    reflexivity.
+   -intros.
+    apply eq_mnat_equiv in H.
+    exact H.
+ }
+ exact H.
+Qed.
+
+
+Theorem lookdown_lookup : forall (n : nat) (t : tag), lookdown n encdec = Some t -> lookup t encdec = Some n.
+Proof.
   (* i admit this only because computing is too long *)
-  assert (H': lookdown_encdecP = true) by admit. 
+  assert (H': lookdown_encdec = true) by apply lookdown_encdec_true.
+  pose proof lookdown_encdecP.
   rewrite H' in H.
   inversion H.
   intros n.
@@ -1179,55 +911,66 @@ Proof.
   -apply H0.
    exact H1.
    exact H2.
-  -assert (exists m, n = 227 + m).
-   {
-     (* not that simple *)
-     Search (_ < _).
-     admit.
-   }
+  -assert (exists m, n = 227 + m)
+      by (eexists; eapply le_plus_minus; eauto).
    destruct H3.
    subst n.
    simpl in H2.
    discriminate.
-  Admitted.
+Qed.
 
 
 (* need to find how to refactor the proof *)
-Lemma lookup_val : forall (n : nat) (t : tag), lookup t encdec = Some n -> n <= 226.
+Lemma lookup_val : forall (t : tag), forall (n : nat), lookup t encdec = Some n -> n <= 226.
 Proof.
 Admitted.
 
+Definition forall_inv (t: tag)(p: nat -> bool): bool.
+Admitted.
 
-Theorem lookup_encdecP : forall (n : nat) (t : tag) , lookup t encdec = Some n -> lookdown n encdec = Some t.
+Lemma forall_invP {P}{p}{t} : (forall n, reflect (P n) (p n)) ->
+                           reflect (forall (n : nat), lookup t encdec = Some n -> P n)
+                                   (forall_inv t p).
+Admitted.
+
+Lemma lookup_true : forall_tag (fun t =>
+                       forall_inv t (fun n =>
+                         n <=? 256)) = true.
+Proof. try (vm_compute; reflexivity). Admitted.
+
+
+Theorem lookup_encdecP:
+  reflect (forall (n : nat), n <= 226 ->
+             forall (t : tag),
+               lookup t encdec = Some n ->
+               lookdown n encdec = Some t)
+          lookup_encdec.
 Proof.
-  SearchAbout reflect.
-  assert (reflect (forall (n : nat), n <= 226 -> forall (t : tag), lookup t encdec = Some n -> lookdown n encdec = Some t) lookdown_encdecP').
-  {
-    unfold lookdown_encdecP.
-    SearchAbout reflect.
-    Check forall_finP.
-    apply forall_finP.
-    Check forall_tagP.
-    intros n.
-    apply forall_tagP.
-    SearchAbout reflect.
-    Check implyP.
-    intros t.
-    apply implyP.
-    -assert (reflect (lookup t encdec = Some n) (eq_mnat (lookup t encdec) (Some n))).
-     {
-       apply iff_reflect.
-       apply iff_to_and.
-       split.
-       +intros.
-        rewrite H.
-        simpl.
-        apply Nat.eqb_refl.
-       +intros.
-        apply eq_mnat_equiv in H.
-        exact H.
-     }
-     exact H.
+unfold lookdown_encdec.
+SearchAbout reflect.
+Check forall_finP.
+apply forall_finP.
+Check forall_tagP.
+intros n.
+apply forall_tagP.
+SearchAbout reflect.
+Check implyP.
+intros t.
+apply implyP.
+-assert (reflect (lookup t encdec = Some n) (eq_mnat (lookup t encdec) (Some n))).
+ {
+   apply iff_reflect.
+   apply iff_to_and.
+   split.
+   +intros.
+    rewrite H.
+    simpl.
+    apply Nat.eqb_refl.
+   +intros.
+    apply eq_mnat_equiv in H.
+    exact H.
+ }
+ exact H.
     -assert (reflect (lookdown n encdec = Some t) (eq_mtag (lookdown n encdec) (Some t))).
      {
        apply iff_reflect.
@@ -1242,9 +985,13 @@ Proof.
         exact H.
      }
      exact H.
-  }
+Qed.
+
+Theorem lookup_lookdown : forall (n : nat) (t : tag) , lookup t encdec = Some n -> lookdown n encdec = Some t.
+Proof.
   (* same as previously *)
-  assert (lookdown_encdecP' = true) by admit.
+  pose proof lookup_encdecP.
+  assert (lookup_encdec = true) by apply lookup_encdec_true.
   rewrite H0 in H.
   inversion H.
   intros n.
@@ -1256,21 +1003,9 @@ Proof.
   -apply H1.
    exact H2.
    exact H3.
-  -assert (exists m, n = 227 + m).
-   {
-     admit.
-   }   
-   destruct H4.
-   subst n.
-   apply lookup_val in H3.
-   simpl in H3.
-   Search (S _ <= _).
-   repeat apply le_S_n in H3.
-   Search (S _ <= 0).
-   apply Nat.nle_succ_0 in H3.
-   inversion H3.
-Admitted.
-
+  - pose proof lookup_val t n H3.
+    now apply lt_not_le in H4.
+Qed.
 
 
 
