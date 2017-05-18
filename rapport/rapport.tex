@@ -111,9 +111,108 @@ Pour l'instant il n'existe aucune implémentation concrète de MMIX il
 
 \subsection{Définition MMIX}
 
+Dans cette section il sera question de définir la syntaxe des instructions MMIX.
+MMIX est un jeu d'instruction RISK ce qui signifie que la taille des instructions
+est fixer. Ici une instruction est de taille 32 dont voici le découpage.
 
-il est le successeur du langage MIX également conçu par donald Knuth 8 ans plus tot
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  Etiquette & Operande 1 & Operande 2 & Operande 3\\
+  \hline
+  0-7 bits & 8-15 bits & 16-23 bits & 24-31  \\
+  \hline
+  TAG & X & Y & Z \\
+  \hline
+\end{tabular}
+\remark{La dernière ligne du tableau permet simplement d'associer à chaque partie
+  de l'instruction un nom de variable afin d'alléger le texte dans la suite du rapport}
+%il est le successeur du langage MIX également conçu par donald Knuth 8 ans plus tot
+Les operandes peuvent être à la foix un immediat ou un registre.
+Ici on ne s'attarde pas sur la sémantique des instructions ce qui nous intérresse
+est la syntaxe. Une des spécificité de la syntaxe est la possibilité d'obtenir des operandes
+de plus grande taille avec les formes d'instructions suivantes:\\
+\begin{tabular}{|c|c|c|}
+  \hline 
+  TAG & X & YZ \\
+  \hline
+\end{tabular}
 
+\begin{tabular}{|c|c|}
+  \hline 
+  TAG & XYZ \\
+  \hline
+\end{tabular}
+
+\subsection{Représentation des données}
+\label{representation des donnees}
+\todo{faire une phrase d'intro}
+
+Une représentation intuitive des operandes serait de les déclarer de la manière suivante,
+
+
+
+Afin de faciliter les preuves pour faire un premier travail en hauteur, j'ai jugé nécéssaire
+d'éclater le type de donnée afin de ne pas surchager les informations nécéssaires dans la liste d'association
+mais nous reviendrons sur ce choix dans la partie \ref{partieOpcode}.
+Le choix à été de stocker l'information dès les étiquettes de la forme
+
+\todo{Parler du fait que c'est très exhaustif et que ça marche pour MMIX mais que ça va pas marcher pour le reste}
+\codefrom{src}{ast_instructions}{tag}
+%% \codefrom{src}{ast_instructions}{tag_definition}
+
+
+Ces différents types d'étiquettes vont nous permettre dans les définitions des instructions de les définir
+de crée un type d'étiquette par syntaxe. Dans le cas de MMIX ce n'est pas très génant étant donné que le
+nombre de combinaison est assez faible.
+\remark{Pour un langage assembleur tel que x86 il ne sera pas possible de definir les instructions de façon exhaustive il faudra
+  utiliser une autre représentation des données. Nous en reparlerons dans la partie \todo{mettre la ref}}
+
+Maintenant nous voulons définir un type de donnée qui puisse représenter une instruction.
+Etant donné que nous avons dissocié les différents types de tag en fonction de la syntaxe de l'instruction
+nous allons poursuivre de la même manière en définissant des types pour chaque type d'instructions.
+En voici un exemple pour les instructions avec 3 opérandes représentants des registres.
+\codefrom{src}{ast_instructions}{instruction_tern_n}
+\remark{Le record ici est approprié étant donné que l'on souhaite que l'ensemble des champs soient
+  définis dans une instruction pour ne pas laisser de champs vides (ce qui n'aurait pas de sens au
+  niveau syntaxique}
+
+Nous obtenons donc le type suivant pour les instructions:
+\codefrom{src}{ast_instructions}{instruction}
+
+\subsection{Egalité entre deux éléments d'un type de donnée}
+Avant de passer à la section suivante attardons nous sur l'égalité de deux éléments de même type.
+Si l'on souhaite définir une égalité le type de donnée suivant :
+\codefrom{rapport}{definitions}{example_type}
+\remark{Nous nous attarderons ici sur les types inductifs uniquement}
+
+Il va nous falloir crée une fonction exhaustive énumérant l'ensemble des cas pour determiner
+si les deux élements sont égaux ou non. Ce qui nous donne pour l'exemple précédent la fonction suivante:
+
+\codefrom{rapport}{definitions}{equal}
+
+Ce genre de fonctions sont très fastidieuses à rédiger et l'on constate déja la taille de celle ci
+pour un type de donnée composé de deux éléments.
+Si nous souhaitions écrire cette fonction le type ``tag'' \todo{peut etre changer la police} dans
+la section \ref{representation des donnees} la perte de temps serait considérable.
+Dans Coq il existe une commande qui va nous permettre de générer cette fonction
+automatiquement, la voici:
+
+\codefrom{rapport}{definitions}{SchemeEqual}
+
+
+
+\subsection{Lemmes}
+Voici un premier lemme qui nous sera très utile par la suite:
+\codefrom{src}{ast_instructions}{tag_beq_different}
+Ici on désire montrer que si l'on montre que deux étiquettes sont équivalentes
+à l'aide de notre fonction sur les booléens alors on peut obtenir une preuve
+de cette égalité dans le monde propositionnel.
+
+
+
+
+
+%%----------------------------------------Section Conversion N liste B -----------------------------
 \section{Conversion N liste B}
 
 Code de bitn
