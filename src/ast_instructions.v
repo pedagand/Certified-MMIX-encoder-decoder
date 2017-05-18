@@ -1,10 +1,11 @@
 Require Import List.
  
-(* tag definition *)
+(*=tag_definition *)
 Inductive tag_ter_normal :=
 (* Integer arithmetic *)
 | ADD : tag_ter_normal
 | SUB : tag_ter_normal
+(*=End *)
 | MUL : tag_ter_normal
 | DIV : tag_ter_normal
 (* unsigned arithmetic *)
@@ -339,7 +340,7 @@ Inductive tag_uno :=
 (* sync *)
 | SYNC : tag_uno.         
 
-
+(*=tag *)
 Inductive tag :=
 | tag_t_n : tag_ter_normal -> tag
 | tag_t_i : tag_ter_immediate -> tag
@@ -353,7 +354,7 @@ Inductive tag :=
 | tag_d_i3 : tag_duo_immediate3 -> tag
 | tag_d_n : tag_duo_normal -> tag
 | tag_u : tag_uno -> tag.
-
+(*=End *)
 
 Scheme Equality for tag.
 
@@ -362,8 +363,9 @@ Lemma tag_beq_reflexivity : forall (t :tag), tag_beq t t = true.
 Proof.
   destruct t ; destruct t ; reflexivity.
 Qed.
-  
+(*=tag_beq_different *)  
 Lemma tag_beq_different : forall (t1 t2 : tag), tag_beq t1 t2 = true -> t1 = t2.
+(*=End *)
 Proof.
   intros.
   destruct t1;  destruct t; destruct t2; destruct t; try reflexivity; try discriminate.
@@ -386,12 +388,13 @@ Inductive operande :=
  
 
 (* instruction definition *)
+(*=instruction_tern_n *)
 Record instruction_tern_n :=
   mk_instr_t_n { instr_opcode_t_n : tag_ter_normal; 
              instr_operande1_t_n : register ; 
              instr_operande2_t_n : register ; 
              instr_operande3_t_n : register }.
-
+(*=End *)
 Record instruction_tern_i :=
   mk_instr_t_i { instr_opcode_t_i : tag_ter_immediate; 
              instr_operande1_t_i : register ; 
@@ -455,7 +458,7 @@ Record instruction_uno :=
 
 
 
-
+(*=instruction *)
 Inductive instruction :=
 | instr_t_n : instruction_tern_n -> instruction
 | instr_t_i : instruction_tern_i -> instruction
@@ -469,9 +472,10 @@ Inductive instruction :=
 | instr_d_n2 : instruction_duo_i2 -> instruction
 | instr_d_n3 : instruction_duo_i3 -> instruction
 | instr_u : instruction_uno -> instruction.
-(* binary instruction definition *)
+(*=End *)
+(*=binary_instruction  *)
 Definition binary_instruction := list bool.
-
+(*=End *)
 
 (* some example to test the record structure *)
 (* Example my_instr := mk_instr_t_i (tag_t_i ADD_I) (reg 10) (reg 11) (imm 12). *)

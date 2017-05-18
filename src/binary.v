@@ -29,9 +29,10 @@ Check leb 2 3.
 
 
 SearchAbout (_ mod _).
-
-Lemma size_n_bit : forall (n k: nat) (l : list bool),
+(*=size_n_bit *)
+Theorem size_n_bit : forall (n k: nat) (l : list bool),
     n_bit n k = Some l -> length l = n.
+(*=End *)
 Proof.
   induction n.
   -intros k l.
@@ -71,7 +72,7 @@ Qed.
 
 (* first proof that we need on binary representation *)
 (*=nbitn *)
-Theorem n_bit_n : forall (l : list bool) (n k : nat),
+Lemma n_bit_n : forall (l : list bool) (n k : nat),
     n_bit n k = Some l -> bit_n l = k.
 (*=End *)
 Proof.
