@@ -32,7 +32,8 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2 ++ x3) 8 = (x0,x1 ++ x2 ++ x3)) by (apply get_first_n_bit_size_4; auto).  
   rewrite H7.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  Check lookup_lookdown.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H8.
@@ -107,7 +108,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2 ++ x3) 8 = (x0,x1 ++ x2 ++ x3)) by (apply get_first_n_bit_size_4; auto).
   rewrite H7.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H8.
@@ -182,7 +183,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2 ++ x3) 8 = (x0,x1 ++ x2 ++ x3)) by (apply get_first_n_bit_size_4; auto).
   rewrite H7.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H8.
@@ -257,7 +258,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2 ++ x3) 8 = (x0,x1 ++ x2 ++ x3)) by (apply get_first_n_bit_size_4; auto).
   rewrite H7.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H8.
@@ -333,7 +334,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2 ++ x3) 8 = (x0,x1 ++ x2 ++ x3)) by (apply get_first_n_bit_size_4; auto).
   rewrite H7.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H8.
@@ -409,7 +410,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2 ++ x3) 8 = (x0,x1 ++ x2 ++ x3)) by (apply get_first_n_bit_size_4; auto).
   rewrite H7.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H8.
@@ -485,7 +486,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2 ++ x3) 8 = (x0,x1 ++ x2 ++ x3)) by (apply get_first_n_bit_size_4; auto).
   rewrite H7.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H8.
@@ -558,7 +559,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2) 8 = (x0,x1 ++ x2)) by (apply get_first_n_bit_size_3; auto).
   rewrite H6.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H7.
@@ -622,7 +623,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2) 8 = (x0,x1 ++ x2)) by (apply get_first_n_bit_size_3; auto).
   rewrite H6.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H7.
@@ -685,7 +686,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2) 8 = (x0,x1 ++ x2)) by (apply get_first_n_bit_size_3; auto).
   rewrite H6.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H7.
@@ -749,7 +750,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1 ++ x2) 8 = (x0,x1 ++ x2)) by (apply get_first_n_bit_size_3; auto).
   rewrite H6.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H7.
@@ -811,7 +812,7 @@ Proof.
   assert (get_first_n_bit (x0 ++ x1) 8 = (x0,x1)) by (apply get_first_n_bit_size_tl; auto).
   rewrite H5.
   apply commut_equal in H0.
-  apply lookup_encdecP in H0.
+  apply lookup_lookdown in H0.
   apply commut_equal in H1.
   assert (bit_n x0 = x) by (apply n_bit_n in H1; exact H1).
   rewrite H6.

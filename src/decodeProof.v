@@ -318,7 +318,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_n.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      inversion H0.
      assert (instr_opcode_t_n
@@ -477,7 +477,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_n.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_t_i.
      assert (instr_opcode_t_i
@@ -635,7 +635,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_i2.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_t_i.
      assert (instr_opcode_t_i2
@@ -795,7 +795,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_i2.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_t_i3.
      assert (instr_opcode_t_i3
@@ -955,7 +955,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_i2.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_t_i4.
      assert (instr_opcode_t_i4
@@ -1115,7 +1115,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_i2.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_t_i5.
      assert (instr_opcode_t_i5
@@ -1275,7 +1275,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_i2.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_t_i6.
      assert (instr_opcode_t_i6
@@ -1436,7 +1436,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_n.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_d_i.
      assert (instr_opcode_d_i
@@ -1562,7 +1562,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_n.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_d_i2.
      assert (instr_opcode_d_i2
@@ -1687,7 +1687,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_n.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_d_i3.
      assert (instr_opcode_d_i3
@@ -1813,7 +1813,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_t_n.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_d_n.
      assert (instr_opcode_d_n
@@ -1944,7 +1944,7 @@ Proof.
      (* inversion H0. *)
      unfold encode_u.
      apply commut_equal in H1.
-     apply lookdown_encdec in H1.
+     apply lookdown_lookup in H1.
      inversion H0.
      unfold encode_d_n.
      assert (instr_opcode_s
