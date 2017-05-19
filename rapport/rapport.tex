@@ -495,11 +495,98 @@ Pour prouver ce théorème il nous faut deux théorème préliminaires permettan
 \todo{finir cette partie à tranquille demain}
 
 
-
+%%------------------------Encode Decode----------------------
 \section{Encode Decode}
 
+\todo{une petite phrase qui dit que le type des tag lors du decode nous permet de savoir ce que l'on doit faire exactement}
 \todo{introduction peut etre parler à l'avance du problème d'avoir utiliser un truc bien exhaustif}
-\subsection{}
+
+
+
+%%---------Fcts prélminaires -------
+\subsection{Fonctions prélminiaires}
+
+Afin de réaliser les fonctions d'encodage et de décodage de nos instructions il nous manque encore quelques operations.
+Les premières fonctions que nous allons définir deux fonctions permettant de transformer une operande en liste de booleens.
+
+\codefrom{src}{encode}{operand_to_bin}
+
+De façon similaire il nous faut aussi une fonction permettant d'encoder des operandes lorsque celle ci seront utiliseé dans
+les instructions à 2 operandes c'est à dire que celle ci aura une taille de 16 \todo{refaire cette phrase}
+
+\codefrom{src}{encode}{operand_to_bin_double}
+
+Définisson quelques lemmes sur ces nouvelles fonctions.
+\codefrom{src}{encode}{operand_to_bin_hypothesis_reg}
+\codefrom{src}{encode}{operand_to_bin_hypothesis_imm}
+\codefrom{src}{encode}{operand_to_bin_size}
+\todo{peut etre commenter un peu plus ce genre de choses}
+
+
+Pour la fonction de décodage nous aurons besoin d'une fonction permettant de découper
+une liste de booléens en plusieurs sous listes. Voici la fonction qui effectura cette operation:
+
+\codefrom{src}{encode}{get_first_n_bit}
+
+La fonction retourne un couple de deux listes, la première correspond aux ``size'' premiers
+bits de la liste et la seconde au reste  de la liste. Le fait de retourner le reste de la liste
+nous permettra de découper celle ci à nouveau.
+\todo{relire ici}
+
+
+
+
+%%-----------Encode--------
+\subsection{Encode}
+
+\todo{phrase d'intro}
+
+\subsubsection{Monade bind}
+
+La fonction encode utilise les fonctions que nous avons définies dans les sections précédentes qui sont généralements
+des fonctions partiels. Lorsque l'on souhaite utiliser leur valeur de retour nous somme obliger de faire un
+filtrage de la forme :
+
+\codefrom{rapport}{definitions}{pattern_matching}
+
+Cette construction est très lourde dans la définition des fonctions nous allons donc crée une monade
+afin de faciliter l'utilisation de ces fonctions partielles:
+
+\codefrom{src}{encode}{monade}
+
+Nous avons maintenant une fonction bind qui nous permet d'automatiser ce filtrage. Coq nous permet de
+définir de nouvelles notations \todo{je suis pas sur du traits}
+
+\codefrom{src}{encode}{notation}
+
+
+
+
+
+%%--------Encode decode-----
+\subsection{Implementation des fonctions Encode et Decode}
+
+Commençons par la définition de la fonction encode. D'après le type instruction \todo{mettre la ref}
+chaque instruction s'encode différement, nous allons devoir définir une fonction comme celle ci
+pour chaque type d'instruction:
+
+\codefrom{src}{encode}{encode_t_n}
+
+Ce qui nous permet de définir la fonction encode suivante:
+
+\codefrom{src}{encode}{encode}
+
+La fonction de décodage 
+
+
+
+
+
+
+
+
+
+
 
 \section{Conclusion}
 
