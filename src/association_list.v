@@ -2,13 +2,14 @@ Require Import List Nat Arith.
 Import ListNotations.
 Require Import Mmx.ast_instructions.
 
-
+(*=assoc *)
 Definition assoc : Set :=
   tag * nat.
-
+(*=End *)
+(*=tag_opcode_assoc *)
 Definition tag_opcode_assoc :=
   list assoc.
-
+(*=End *)
 Scheme Equality for list.
 Check list_beq.
 
@@ -18,6 +19,7 @@ Check list_beq.
 
 
 (* actually this is a good name for this function :p *)
+(*=lookup *)
 Fixpoint lookup (t : tag) (l : tag_opcode_assoc) : option nat :=
   match l with
     | [] => None
@@ -25,7 +27,9 @@ Fixpoint lookup (t : tag) (l : tag_opcode_assoc) : option nat :=
                       then Some n
                       else lookup t tl
   end.
+(*=End *)
 (* actually this is a good name for this function :p *)
+(*=lookdown *)
 Fixpoint lookdown (n : nat) (l : tag_opcode_assoc) : option tag :=
   match l with
     | [] => None
@@ -33,6 +37,7 @@ Fixpoint lookdown (n : nat) (l : tag_opcode_assoc) : option tag :=
                       then Some t
                       else lookdown n tl
   end.
+(*=End *)
 
 (* this table is an association list of type tag_opcode_assoc with every associations that can be made in our langage *)
 Definition encdec : tag_opcode_assoc := 
@@ -532,16 +537,16 @@ Definition forall_tag_duo_n (p : tag_duo_normal -> bool): bool :=
 (p FIXU) &&
 (p SFLOT) &&
 (p SFLOTU).
-
+(*=forall_tag_uno *)
 Definition forall_tag_uno (p : tag_uno -> bool): bool :=
   (p JMP) &&          
   (p SAVE) &&
   (p UNSAVE) &&
   (p RESUME) &&
   (p SYNC).
+(*=End *)
 
-
-
+(*=forall_tag *)
 Definition forall_tag (p : tag -> bool): bool :=
   (forall_tag_ter_n (fun x => p (tag_t_n x))) &&
                                               (forall_tag_ter_i (fun x => p (tag_t_i x))) &&
@@ -555,13 +560,14 @@ Definition forall_tag (p : tag -> bool): bool :=
                                               (forall_tag_duo_i2 (fun x => p (tag_d_i2 x))) &&
                                               (forall_tag_duo_i3 (fun x => p (tag_d_i3 x))) &&
                                               (forall_tag_uno (fun x => p (tag_u x))).
-
+(*=End *)
 
 Print reflect.
 
 Definition propP := forall x : nat, x = x.
 Check propP.
-
+Check reflect False true.
+Check ReflectT True.
 Lemma test_reflect : True -> reflect True true.
 Proof.
   exact (ReflectT True).
@@ -574,8 +580,7 @@ Lemma helpBefore1 : forall (f : tag -> bool), forall_tag f = true -> (forall (t:
 Proof.
   intros f.
   unfold forall_tag.
-  intros H.
-  
+  intros H.  
   repeat (apply andb_prop in H; destruct H).
   repeat (apply andb_prop in H10; destruct H10).
   repeat (apply andb_prop in H9; destruct H9).
@@ -600,10 +605,11 @@ Proof.
   repeat (apply andb_true_intro ; split ; auto).
 Qed.
 
-
+(*=forall_tagP *)
 Lemma forall_tagP: forall (P : tag -> Prop)(f : tag -> bool),
     (forall (t : tag), reflect (P t) (f t)) ->
     reflect (forall t, P t) (forall_tag f).
+(*=End *)
 Proof.
   intros P f H.
   Search reflect.
@@ -617,12 +623,12 @@ Proof.
    +intros t.
     specialize (H t).
     Search forall_tag.
+    Check reflect_iff.
     apply reflect_iff in H.
     inversion H.
     specialize (H0 t).
     apply H1.
     exact H0.
-    (* this part is ok !!! ;) *)
   -intros.
    specialize (H t).
    rewrite helpBefore1 in H.
@@ -688,7 +694,7 @@ Proof.
     intros.
     change (f (S n) = true) with ((fun n => f (S n)) n = true).
     apply IHk.
-    {(* c'est donner par H0 et H mais faut trouver un théoreme pour reussir a exprimer ça *)
+    {
       assert (forall (k' : nat) (f' : nat -> bool) , f' (S k') = true -> forall_bounded k' f' = true -> forall_bounded k' (fun n0 : nat => f' (S n0)) = true).
       {
         induction k'.
@@ -757,7 +763,9 @@ Qed.
 
 Definition imply (a b : bool): bool := if a then b else true.
 
+(*=implyP *)
 Lemma implyP: forall A B a b, reflect A a -> reflect B b -> reflect (A -> B) (imply a b).
+(*=End *)
 Proof.
   intros.
   apply reflect_iff in H.
