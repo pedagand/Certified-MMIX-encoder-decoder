@@ -462,7 +462,7 @@ sauf que dans ce cas on pourra obtenir une preuve de non ``P''. Pour vulgariser 
 principe on peut dire que avoir une preuve de ``reflect P b'' implique que la preuve
 de P est équivalente à ``b = true''. Ce principe est illustré par le théorème suivant:
 
-\codefrom{src}{definitions}{reflect_iff}
+\codefrom{rapport}{definitions}{reflect_iff}
 
 
 Mettons de côté le type ``reflect'' et définissons maintenant un ensemble de
@@ -483,11 +483,10 @@ Nous allons maintenant prouver un premier théorème:
 
 Ce théorème est très intérressant (même si en l'état il n'est pas très utile) car il nous permet
 d'affimer au travers de reflect de passer du monde des propositions ``(forall (t : tag), reflect (P t) (f t))''
-à celui du calcul avec notre fonction ``forall\_tag'' ``reflect (forall t, P t) (forall_tag f)''.
+à celui du calcul avec notre fonction ``forall\_tag'' ``reflect (forall t, P t) (forall\_tag f)''.
 Pour prouver ce théorème il nous faut deux théorème préliminaires permettant
 \todo{parler des théorèmes help mais enfaite c'est un des help qui fait ce que je dis au dessus}
 
-\\
 
 \todo{motiver le imply proprement}
 
