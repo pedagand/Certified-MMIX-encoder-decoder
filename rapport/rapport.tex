@@ -342,7 +342,7 @@ des sections suivantes \todo{mettre la ref} produisent bien des instructions de 
 
 Une des information importante à retenir de ce théorème est sa structure.
 En effet comme nous avons vus précédement \ref{Fonctions de conversion} la
-fonction n_bit peut échouer, il nous faut donc vérifier cette propriété
+fonction n\_bit peut échouer, il nous faut donc vérifier cette propriété
 uniquement lorsque celle ci termine correctement. C'est pour cette raison
 que nous devons utiliser l'implication pour ne considérer que ces cas précis. \\
 
@@ -368,44 +368,16 @@ Nous avons en notre possession l'ensemble des théorèmes nécéssaires pour la 
 
 
 
-
-
-
-
-
-
-
-
-
-Il existe un type de donnée qui permet d'encoder les valeurs binaires dans coq, mais celle ci
-n'est pas très souple car elle ne permet pas de définir des valeurs sur un nombre fixé de bits.
-
-
-
-Code de bitn
-\codefrom{src}{binary}{bitn}
-
-Code de nbit
-\codefrom{src}{binary}{nbit}
-
-
-Parler du fait que pour ces lemme on a des effets de bords dont on est obligé
-de faire des lemmes en prennant cela en compte 
-
-Le but est de prouver un Lemme de cette forme
-\codefrom{src}{binary}{nbitn}
-
-et celui dans le sens opposé 
-\codefrom{src}{binary}{bitnbit}
-
-
-
-
-
-
+%%---------------------------Conversion Opcode list B---------------------------
 \section{Conversion Opcode liste B}
 \label{partieOpcode}
 
+\todo{faire une phrase d'intro de ça}
+
+
+%%---------Structure de donnée----------------
+\subsection{Structure de donnée}
+\label{Structure de donnee}
 La première étape d'encodage ou de décodage d'une instruction se situe
 au niveau de l'étiquette. Dans le cas de MMIX comme vus en section \ref{partieMMIX}
 une étiquette est associée à un unique opcode. Une façon de stocker cette
@@ -417,38 +389,121 @@ maintenant stocker l'ensemble de celles ci. Etant donné que le nombre
 d'instructions est de 256 utilisé une représentation sous forme
 de liste est envisageable. Un argument supplémentaire est que la liste
 est un type inductif qui nous permettra de raisonner plus aisement
-lors des preuves étant donné sa relative simplicité.
-Nous obtenons donc le type suivant pour représenté notre collection d'association:
+lors des preuves étant donné sa relative simplicité. En effet on pourrait utiliser
+un dictionnaire pour réduire la complexité, cependant l'utilisation de ce genre
+de type de donnée rendrais les preuves plus complexes \todo{pas sur au final :p}.
+Nous obtenons donc le type suivant pour représenté notre collection d'associations:
 
 \codefrom{src}{association_list}{tag_opcode_assoc}
 
-\remark{Pourquoi ne pas utiliser un dictionnaire, parceque ça ferait que dans un sens }
+\remark{Un autre argument en faveur de l'utilisation des listes à l'instard des
+  dictionnaires est le fait que cette liste sera définie une unique fois et pourra être utiliser
+  pour effectuer les deux sens de la correspondance.
+}
 
-\remark{}
-
-
-
-%TODO faire un paragraphe de pk il faut pas nécéssairement plus d'informations dans la liste
-% d'association avec notre représentation des données.
-
-
-Afin de convertir l'ensemble opérateurs en binaire il nous faut
-un moyens de stocker cette correspondance.
-Ici le nombre d'étiquettes distinctes est de 256 ce qui est un nombre
-assez faible. Une liste d'association se révèle ici une solution viable
-étant donné que la recherche
+\todo{peut etre placer une remarque sur le fait que on stocke un nat et pas directement
+  la liste de booleen qui correspond}
+\todo{C'est même sur qu'il va falloir en parler de ça}
 
 
+\todo{faire un paragraphe de pk il faut pas nécéssairement plus d'informations dans la liste
+  d'association avec notre représentation des données ``c'est maintenant que le fait d'avoir tout mis a plat prend son sens
+étant donné que notre liste d'association est très simple ce qui nous permet de faciliter les preuves sur celles ci}
 
-Pourquoi ne pas utiliser de dictionnaire, parceque nous pourrons utiliser
-la liste pour obtenir une le code binaire associé à une étiquette mais aussi faire
-l'opération inverse
+
+%%-----------lookup et lookdown------
+\subsection{Fonctions de recherche}
+
+Il est désormais question de réaliser deux fonctions permettant la recherche
+au sein d'une liste d'association tel que celle définie dans la section précédente
+\ref{Structure de donnee}.
+
+\codefrom{src}{association_list}{lookup}
+
+Encore une fois l'utilisation de la monade option est indispensable ici car
+on ne peut pas garantir que pour une liste donnée nous trouverons l'entier
+qui lui est associé. Notre travail sera de démontrer que cette fonction n'échoue pas
+sur une liste contenant l'ensemble des associations. Nous y reviendrons dans la section
+\todo{mettre la ref}.
+Voici la fonction effectuant la recherche inverse en suivant le même principe:
+
+\codefrom{src}{association_list}{lookdown}
+
+\todo{peut etre conclure}
+
+
+
+
+%%----------Lemmes----------
+\subsection{Lemmes}
+
+Avant de commencer toute preuve il nous faut définir de manière statique une liste
+contenant l'ensemble des associations entre les ``tag'' \todo{encore typo} et leur entier naturel associé.
+
+\todo{faire cet import et faire un truc sympas pour montrer que les premières lignes}
+\codefrom{src}{association_list}{lol}
+
+Tous les théorèmes que nous définirons se baserons sur cette liste ``encdec''\todo{typo}. \\
+Nous somme ici face à un problème car pour vérifier que la liste contient bien l'ensemble des
+associations nécéssaires le seul moyens de le faire est de calculer dynamiquement cela.
+Mais nous avons besoin de cette propriété afin de pouvoir réaliser nos futures preuves.
+Il va nous falloir introduire un nouveau méchanisme permettant à partir d'un résultat obtenue
+par calcul d'obtenir une proposition traduisant ce résultat dans le monde des propositions.
+\todo{peut être améliorer la phrase précédente}.
+Cette opération en Coq peut être réaliser avec l'aide du type ``reflect'':
+
+\codefrom{src}{association_list}{reflect}
+
+Pour mieux comprendre en quoi ce type va nous être utile, il faut comprendre son utilisation.
+Le type ``reflect'' est composé de deux constructeurs, si l'on possède un élément de type
+``reflect P true'' alors cela signifie que notre élément est le constructeur ``ReflectT''
+et celui ci possède une preuve du prédicat ``P''. Le raisonement est le même pour ``reflect P false''
+sauf que dans ce cas on pourra obtenir une preuve de non ``P''. Pour vulgariser ce
+principe on peut dire que avoir une preuve de ``reflect P b'' implique que la preuve
+de P est équivalente à ``b = true''. Ce principe est illustré par le théorème suivant:
+
+\codefrom{src}{definitions}{reflect_iff}
+
+
+Mettons de côté le type ``reflect'' et définissons maintenant un ensemble de
+fonctions permettant de vérifier une propriété sur l'ensemble de nos tag.
+Il nous faut donc définir des fonctions comme celles ci pour chaque sous type de tag: \todo{sous type ça fait ambigu}
+
+\codefrom{src}{association_list}{forall_tag_uno}
+
+Pour obtenir la fonction suivante:
+
+\codefrom{src}{association_list}{forall_tag}
+
+Grâce à ces fonctions nous allons pouvoir vérifier si un prédicat est vraie pour l'ensemble des tag
+de notre language. \\
+
+Nous allons maintenant prouver un premier théorème:
+\codefrom{src}{association_list}{forall_tagP}
+
+Ce théorème est très intérressant (même si en l'état il n'est pas très utile) car il nous permet
+d'affimer au travers de reflect de passer du monde des propositions ``(forall (t : tag), reflect (P t) (f t))''
+à celui du calcul avec notre fonction ``forall\_tag'' ``reflect (forall t, P t) (forall_tag f)''.
+Pour prouver ce théorème il nous faut deux théorème préliminaires permettant
+\todo{parler des théorèmes help mais enfaite c'est un des help qui fait ce que je dis au dessus}
+
+\\
+
+\todo{motiver le imply proprement}
+
+\codefrom{src}{association_list}{implyP}
+
+\todo{finir cette partie à tranquille demain}
+
 
 
 \section{Encode Decode}
+
+\todo{introduction peut etre parler à l'avance du problème d'avoir utiliser un truc bien exhaustif}
+\subsection{}
 
 \section{Conclusion}
 
 \end{document}
                
-<
+
