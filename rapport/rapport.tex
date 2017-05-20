@@ -589,6 +589,9 @@ d'instruction il nous faut crée.
 
 
 
+
+
+%%----Lemmes----------
 \subsection{Lemmes}
 
 De même que pour la définition d'encode \todo{mettre la ref} nous allons diviser le travail pour chaque
@@ -611,25 +614,54 @@ Tout comme pour la preuve d'encode ici nous devons effectuer la preuve pour chaq
 ce qui rend une nouvelle fois la preuve très verbeuse et redondante. 
 
 
+
+
+%%-------Theoremes finaux------
 \subsection{Theorèmes finaux}
 
 A l'heure actuelle nous avons une preuve que notre assembleur produit bien \todo{finir cette phrase}
 pour une seul instruction. Cependant un assembleur complet travail sur un ensemble d'instructions
-ou bien un flux de bits. Dans notre cas nous allons définir une fonction décodant une liste d'instructions
-qui 
+ou bien un flux de bits. Dans notre cas nous allons définir une fonction décodant une liste d'instructions et qui
+retourneras une liste de booléens de taille ``32 * length(liste\_instructions)''\todo{typo}.
+Pour ce faire il nous faut une fonction préalable :
+
+\codefrom{src}{encode}{concat_listes_32}
+
+A noter le test sur la taille de la liste
+qui nous permettra d'obtenir une hypothèse supplémentaire lors de nos preuves.
+Etant donné que la fonction encode utilise la monade option nous somme obliger de définir une fonction
+traverse permettant de transformer une liste de type ``list (option A)'' en une liste de type ``list A''.
+
+\codefrom{src}{encode}{traverse}
+
+Voici la définition de la fonction encodant une liste d'insruction (pour la lisibilité celle ci est
+divisée en 3 fonctions)
+
+\codefrom{src}{encode}{encode_flux}
+
+Passons maintenant au décodage d'un flux de booléens. Tout comme pour l'encodage il nous faut
+une fonction préliminaire. Cette fois ci nous avons besoin de découper la liste de booléens
+en entrée en sous listes de taille 32, ce qui nous amène à la définition suivante:
+
+\codefrom{src}{encode}{cut_32}
+
+Nous pouvons maintenant définir la fonction permettant de transformer un flux de booléens
+en une liste d'instruction:
+
+\codefrom{src}{encode}{decode_flux}
 
 
-Pour 
 
+Nous pouvons maintenant définir les théorèmes finaux de notre assembleur qui sont les suivants:
 
+\codefrom{src}{encode}{encode_decode_flux_decoup}
 
+\codefrom{src}{encode}{decode_flux_decoup_encode}
 
-
-
-
-
-
-
+\remark{Prouver ces deux théorèmes nécéssite un travail assez conséquent au niveau des fonctions
+  de découpage. Cependant ces preuves restant dans la même veine que celles que nous avons déja
+  vues précédement leur explication ne semble pas justifiée}
+\todo{regarder quand meme y en as peut etre une bien}
 
 
 
