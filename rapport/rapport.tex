@@ -104,6 +104,50 @@
 \todo{parler du fait que le but pour les assembleurs que l'on va définir est d'avoir une preuve dans les deux sens
   que l'encodage et le decodage préserve l'instruction (a bien rédiger haha)}
 
+Un assembleur est un programme permettant de traduire des instructions lisibles par un être humain vers
+une leur représentation binaire associée afin d'être éxécutées par le processeur. Contrairement à un compilateur
+qui effectue lui aussi un travail de traduction, l'assembleur se focalise uniquement sur l'analyse syntaxique
+et non sur l'aspect sémantique.
+Il existe de nombreux langages
+assembleurs pour cité les plus connus \todo{mettre les plus connus}.
+Le programme KVM \todo{mettre une ref} qui fait partie du noyau linux depuis la version \todo{mettre la version}
+permet d'effectuer cette traduction \todo{chercher si c'est que pour x86}.
+Cependant certains problèmes on été relevées au niveau de la \todo{Chercher un mot}.
+Même si ces problèmes on été résolus on ne peut à l'heure actuelle pas garantire que d'autre bugs ne seront pas
+découvert dans les années à venir.
+
+Prenons l'exemple d'un autre logiciel dont l'utilisation est très répandue : gcc. C'est le compilateur
+du langage C le plus utilisé à l'heure actuelle \todo{Pas sur haha} et pourtant il existe encore des
+problèmes avec celui ci. C'est ce qu'a démontré Xavier Leroy en concevant un compilateur certifié pour le langage C ``Compcert''
+\todo{mettre un max de ref}. Après avoir développé celui ci il à comparé les résultats de ``Compcert'' avec ``GCC''
+et il a relevé plus de \todo{mettre les chiffres et finir la phrase}.
+
+
+Mais comment garantir qu'un programme s'éxécute correctement, en quoi consiste la réalisation d'un logiciel certifié.
+Ces questions sont des questions centrales depuis le développement de l'informatique, et de nombreux travaux ont été
+réalisées sur ce sujet. Les méthodes pour atteindre cet objectif sont diverses \todo{parler des différentes méthodes qui éxistent et dire
+que on va choisir les assistants de preuve}.
+
+
+Les assistants de preuves permettent de crée des programmes sur lesquels on énonce des propriétés que l'on prouve par
+la suite avec celui ci. 
+Par exemple le noyau de coq a été prouvé donc on est en droit de (après on ne sais jamais si une faille ne sera pas découverte
+mais cela réduit énormément la probabilité de recontrer un bug \todo{finir cette petite partie}
+
+La difficulté lors de la réalisation d'un assembleur ne se situe pas en hauteur en effet le nombre de
+fonctions nécéssaires n'est pas très conséquent \todo{bof reformuler}. Par contre la complexité en largeur
+de ce type de programme est très grande. Cela est due au nombre d'instructions ainsi qu'a leur syntaxe qui selon
+la spécification du langage peut etre particulière.
+Les assistants de preuves se prêtent très bien à ce genre de problème car l'on peut prouver des
+propriétés sur des ensembles (dans notre cas des instructions) et réaliser une seul preuve pour
+un ensemble donné.
+
+Une motivation supplémentaire est la continuation des travaux menés par \todo{mettre des noms}.
+Le compilateur ``Compcert'' génère de du langage assembleur x86, mais il n'existe pas
+de programme permettant de garantire sa traduction en bits.
+C'est donc le but de ce projet qui est la réalisation d'un assembleur x86 certifié.
+
+
 
 %%--------------------------------------MMIX et représentation des données-----------------
 \section{MMIX et représentation des données}
