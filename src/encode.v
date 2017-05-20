@@ -7,13 +7,16 @@ Require Import Mmx.binary.
 
 (* (* functions to encode decode instructions *) *)
 (* (* TODO :: Here this function can't be call for immediate *) *)
+(*=operand_to_bin *)
 Definition operand_to_bin (o : operande) : option (list bool) :=
   match o with
     | imm_o (imm k) => n_bit 8 k
     | reg_o (reg k) => n_bit 8 k
   end.
-
+(*=End *)
+(*=operand_to_bin_double *)
 Definition operand_to_bin_double (o : operande) : option (list bool) :=
+  (*=End *)
   match o with
   | imm_o (imm k) => n_bit 16 k
   | reg_o (reg k) => n_bit 16 k
@@ -21,8 +24,10 @@ Definition operand_to_bin_double (o : operande) : option (list bool) :=
 
 
 (* -----------------------------------now for instr_operande_t_n ----------------------------------*)
+(*=operand_to_bin_hypothesis_reg *)
 Lemma operand_to_bin_hypothesis_reg : forall (l : list bool) (r : register),
     operand_to_bin (reg_o r) = Some l -> reg (bit_n l) = r.
+(*=End *)
 Proof.
   intros.
   unfold operand_to_bin in H.
@@ -33,8 +38,10 @@ Proof.
   reflexivity.
 Qed.
 
+(*=operand_to_bin_hypothesis_imm *)
 Lemma operand_to_bin_hypothesis_imm : forall (l : list bool) (i : imediate),
     operand_to_bin (imm_o i) = Some l -> imm (bit_n l) = i.
+(*=End *)
 Proof.
   intros.
   unfold operand_to_bin in H.
@@ -68,8 +75,10 @@ Qed.
 
 
 (* -----------------------------------Other operand_to_bin lemma ----------------------------------*)
+(*=operand_to_bin_size *)
 Lemma operand_to_bin_size : forall (o : operande) (l : list bool),
     operand_to_bin o = Some l -> length l = 8.
+(*=End *)
 Proof.
   destruct o.
   -unfold operand_to_bin.
@@ -108,6 +117,7 @@ Qed.
 
 
 (* HERE i don't make any garantee about the result if the binary_instruction is to small but i will have some lemma to give it *)
+(*=get_first_n_bit *)
 Fixpoint get_first_n_bit  (bi : list bool) (size : nat) : (list bool*list bool) :=
   match size with
   | 0 => ([],bi)
@@ -118,6 +128,7 @@ Fixpoint get_first_n_bit  (bi : list bool) (size : nat) : (list bool*list bool) 
            | [] => ([],[])
            end
   end.
+(*=End *)
 Definition testList := [true ; false ; true ; false ; false ; false ; true ; true ].
 Definition testList' := [true ; false ; true].
 
@@ -194,20 +205,21 @@ Qed.
 (* Lemma get_first_n_bit_size : forall (bi : list bool) (size : nat), n < (length bi) -> get_first_n_bit bi n = ( *)
 
 
-
+(*=monade *)
 Definition M A := option A.
 
 Definition ret {A} (a : A) : M A := Some a.
-
-Lemma ret_rewrite : forall (A : Type) (a : A), ret a = Some a.
-Proof. intros. unfold ret. reflexivity. Qed.
 
 Definition bind {A B} (ma : M A)(k : A -> M B): M B :=
   match ma with
   | Some a => k a
   | None => None
   end.
+(*=End *)
 Check bind.
+
+Lemma ret_rewrite : forall (A : Type) (a : A), ret a = Some a.
+Proof. intros. unfold ret. reflexivity. Qed.
 
 
 Lemma bind_rewrite : forall (A B : Type) (ma : M A) (k : A -> M B) (res : B), bind ma k = Some res -> exists (a : A), k a = Some res /\ Some a = ma.
@@ -232,16 +244,16 @@ Proof.
 
 
 
-
+(*=notation *)
 Notation "'let!' x ':=' ma 'in' k" := (bind ma (fun x => k)) (at level 30). 
-
+(*=End *)
 
 
 (* TODO :: here i know that i can always get a binary_instruction but some function don't allow me to  *)
 (* return a binary_instruction without encapsulate it into an option type *)
 
 (* theese are the encode functions for the different type of instruction *)
-
+(*=encode_t_n *)
 Definition encode_t_n (i : instruction_tern_n) : option binary_instruction :=
   let! k := lookup (tag_t_n (i.(instr_opcode_t_n))) encdec in
   let! code := n_bit 8 k in
@@ -249,7 +261,7 @@ Definition encode_t_n (i : instruction_tern_n) : option binary_instruction :=
   let! o2 := operand_to_bin (reg_o i.(instr_operande2_t_n)) in
   let! o3 := operand_to_bin (reg_o i.(instr_operande3_t_n)) in
   ret (code ++ o1 ++ o2 ++ o3).
-
+(*=End *)
 Definition encode_t_i (i : instruction_tern_i) : option binary_instruction :=
   let! k := lookup (tag_t_i (i.(instr_opcode_t_i))) encdec in
   let! code := n_bit 8 k in
@@ -334,6 +346,7 @@ Definition encode_u (i : instruction_uno) : option binary_instruction :=
 
 (* now the general encode function which take a general instruction *)
 
+(*=encode *)
 Definition encode (i : instruction) : option binary_instruction :=
   match i with
   | instr_t_n t => encode_t_n t
@@ -349,12 +362,13 @@ Definition encode (i : instruction) : option binary_instruction :=
   | instr_d_n3 t => encode_d_i3 t
   | instr_u t => encode_u t
   end.
-  
+(*=End *)  
 
 
   
 
 (* this is the decode function (with this one we only need one general function) *)
+(*=decode *)
 Definition decode (bi : binary_instruction) : option instruction :=
   if length bi =? 32
   then
@@ -366,6 +380,7 @@ Definition decode (bi : binary_instruction) : option instruction :=
                                          ret (instr_u (mk_instr_uno u (imm (bit_n op))))
                                        | _ => None
                                        end                                                         
+(*=End *)
                           | tag_t_n tn =>
                             match get_first_n_bit next 8 with
                             | (op1,next) =>match get_first_n_bit next 8 with
@@ -389,8 +404,7 @@ Definition decode (bi : binary_instruction) : option instruction :=
                                                                                             (reg (bit_n op2))
                                                                                             (imm (bit_n op3))))
                                                              | _ => None
-                                                             end
-                                                               
+                                                             end                                                               
                                              end
                               end
                             | tag_t_i2 ti =>
@@ -430,7 +444,6 @@ Definition decode (bi : binary_instruction) : option instruction :=
                                                                                               (imm (bit_n op3))))
                                                              | _ => None
                                                              end
-                                                               
                                              end
                               end
                             | tag_t_i5 ti =>
@@ -518,6 +531,7 @@ Print fold_right.
 
 (* flux d'instruction il faut faire une fonction qui decode le debut de la liste et retourne la suite de la liste *)
 Print fold_right.
+(*=cut_32 *)
 Fixpoint cut32_n (n : nat) (l : list bool) : (list (list bool)) :=
   match n with
   | 0 => []
@@ -527,8 +541,10 @@ Fixpoint cut32_n (n : nat) (l : list bool) : (list (list bool)) :=
 Definition cut32 (l : list bool) : option (list (list bool)) :=
   let n := length l in
   if n mod 32 =? 0 then Some (cut32_n (n / 32) l) else None.
+(*=End *)
 
 (* i make the option choice because it's easyer for the proof *)
+(*=concat_listes_32 *)
 Fixpoint concat_listes_32 (l : list (list bool)) : option (list bool) :=
   match l with
   | [] => Some []
@@ -536,7 +552,7 @@ Fixpoint concat_listes_32 (l : list (list bool)) : option (list bool) :=
                if length h =? 32 then Some (h ++ res)
                else None
 end.
-
+(*=End *)
 
 
 Definition test_liste := [true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true;true].
@@ -556,7 +572,7 @@ Fixpoint check_length_32 (l : list (list bool)) : bool :=
 
 
 (* other way to define encode_flux*)
-
+(*=traverse *)
 Fixpoint traverse {A} (l : list (option A)) : option (list A) :=
   match l with
   | [] => Some []
@@ -566,8 +582,9 @@ Fixpoint traverse {A} (l : list (option A)) : option (list A) :=
                       end
   | None :: _ => None
   end.
-
+(*=End *)
 (* encode_flux definitions *)
+(*=encode_flux *)
 Definition encode_flux_opt (li : list instruction) : list (option binary_instruction) :=
   map encode li.
 Definition encode_flux (li : list instruction) : option (list binary_instruction) :=
@@ -578,7 +595,9 @@ Definition encode_flux_b (li : list instruction) : option (list bool) :=
   | None => None
   | Some res => concat_listes_32 res
   end.
+(*=End *)
 
+(*=decode_flux *)
 Definition decode_flux_opt (lbi : list binary_instruction) : list (option instruction) :=
   map decode lbi.
 Definition decode_flux_decoup (lbi : list binary_instruction) : option (list instruction) :=
@@ -586,7 +605,7 @@ Definition decode_flux_decoup (lbi : list binary_instruction) : option (list ins
 Definition decode_flux (lb : list bool) : option (list instruction) :=
   let! lbi := cut32 lb in  
   decode_flux_decoup lbi.
-
+(*=End *)
 
 
 (* Some little tests about encode and decode_flux *)

@@ -4,7 +4,6 @@ Require Import Mmx.ast_instructions Mmx.binary Mmx.association_list Mmx.encodePr
 
 
 (* Proof about encode_decode_flux *)
-
 Lemma encode_decode_decoup_flux_decoup : forall (lb : list binary_instruction) (l : list instruction),
     encode_flux l = Some lb -> decode_flux_decoup lb = Some l.
 Proof.
@@ -622,9 +621,10 @@ Qed.
 
 
 (* Finals goal of this file, proofs about encode_flux_b and decode_flux_b *)
-
+(*=encode_decode_flux_decoup *)
 Lemma encode_decode_flux_decoup : forall (lb : list bool) (l : list instruction),
     encode_flux_b l = Some lb -> decode_flux lb = Some l.
+(*=End *)
 Proof.
   intros.
   unfold encode_flux_b in H.
@@ -639,9 +639,10 @@ Proof.
   -discriminate.
 Qed.
 
-
+(*=decode_flux_decoup_encode *)
 Lemma decode_flux_decoup_encode : forall (lb : list bool) (l : list instruction), 
     decode_flux lb = Some l -> encode_flux_b l = Some lb.
+(*=End *)
 Proof.
   intros.
   unfold decode_flux in H.

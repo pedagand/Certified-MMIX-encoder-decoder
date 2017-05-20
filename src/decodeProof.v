@@ -274,9 +274,10 @@ Qed.
    
     
   
-
+(*=decode_encode *)
 Lemma decode_encode : forall (bi : binary_instruction) (i : instruction),
     decode bi = Some i -> encode i = Some bi.
+(*=End *)
 Proof.
   intro.
   intro.
