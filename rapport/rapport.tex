@@ -563,6 +563,7 @@ définir de nouvelles notations \todo{je suis pas sur du traits}
 
 
 
+
 %%--------Encode decode-----
 \subsection{Implementation des fonctions Encode et Decode}
 
@@ -576,7 +577,51 @@ Ce qui nous permet de définir la fonction encode suivante:
 
 \codefrom{src}{encode}{encode}
 
-La fonction de décodage 
+La fonction de décodage quant à elle n'est pas composée de plusieurs fonctions car l'entrée
+étant une liste de booléens.
+Voici une version partielle du code de decode:
+
+\codefrom{src}{encode}{decode}
+
+Ici la définition que nous avons utilisée pour les tags s'avère utile car elle nous permet
+une fois récupérer dans la liste d'association de déterminer immédiatement quel type
+d'instruction il nous faut crée.
+
+
+
+\subsection{Lemmes}
+
+De même que pour la définition d'encode \todo{mettre la ref} nous allons diviser le travail pour chaque
+type d'instructions.
+
+\codefrom{src}{encodeProof}{encode_decode_t_n}
+
+Le problème de la représentation actuelle des données fait que nous somme obliger de réaliser une preuve
+similaire mais non triviale pour chaque type d'instruction. Cela crée énormément de redondance dans les preuves
+et cela n'est jamais bon signe. Nous verrons dans la partie future work \todo{faire la ref} les solutions envisageables afin
+de surmonter ce problème.
+Cela nous permet finalement d'obtenir la preuve qu'une instruction encoder par notre assembleur puis decoder par celui
+ci est identique. On a donc une preuve que la syntaxe est belle et bien préservée.
+
+Définissons le théorème opposée à celui ci à savoir :
+
+\codefrom{src}{encodeProof}{decode_encode}
+
+Tout comme pour la preuve d'encode ici nous devons effectuer la preuve pour chaque type d'instructions
+ce qui rend une nouvelle fois la preuve très verbeuse et redondante. 
+
+
+\subsection{Theorèmes finaux}
+
+A l'heure actuelle nous avons une preuve que notre assembleur produit bien \todo{finir cette phrase}
+pour une seul instruction. Cependant un assembleur complet travail sur un ensemble d'instructions
+ou bien un flux de bits. Dans notre cas nous allons définir une fonction décodant une liste d'instructions
+qui 
+
+
+Pour 
+
+
 
 
 
