@@ -931,20 +931,19 @@ Qed.
 (* need to find how to refactor the proof *)
 Lemma lookup_val : forall (t : tag), forall (n : nat), lookup t encdec = Some n -> n <= 226.
 Proof.
-Admitted.
+  intros. 
+  destruct t ; destruct t; simpl in H; inversion H; try (repeat (apply le_n_S)); apply Peano.le_0_n.
+Qed.
 
-Definition forall_inv (t: tag)(p: nat -> bool): bool.
-Admitted.
-
-Lemma forall_invP {P}{p}{t} : (forall n, reflect (P n) (p n)) ->
-                           reflect (forall (n : nat), lookup t encdec = Some n -> P n)
-                                   (forall_inv t p).
-Admitted.
+Definition forall_inv (t: tag)(p: nat -> bool): bool :=
+  forall_tag (fun t => match lookup t encdec with
+                       | Some n => p n
+                       | None => false end).
 
 Lemma lookup_true : forall_tag (fun t =>
                        forall_inv t (fun n =>
                          n <=? 256)) = true.
-Proof. try (vm_compute; reflexivity). Admitted.
+Proof. try (vm_compute; reflexivity). Qed.
 
 
 Theorem lookup_encdecP:
