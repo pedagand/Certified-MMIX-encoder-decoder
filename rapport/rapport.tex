@@ -269,10 +269,11 @@ automatiquement, la voici:
 
 %%-------------Lemmes---------------
 \subsection{Lemmes}
+\label{LemmesAST}
 Voici un premier lemme qui nous sera très utile par la suite:
 \codefrom{src}{ast_instructions}{tag_beq_different}
-Ici on désire montrer que si l'on montre que deux étiquettes sont équivalentes
-à l'aide de notre fonction sur les booléens alors on peut obtenir une preuve
+Ici on désire montrer que si l'on prossède une preuve que deux étiquettes sont équivalentes
+à l'aide de notre fonction booléene alors on peut obtenir en déduire une preuve
 de cette égalité dans le monde propositionnel.
 
 
@@ -288,7 +289,7 @@ de cette égalité dans le monde propositionnel.
 
 %%----------------------------------------Section Conversion N liste B -----------------------------
 \section{Conversion N liste B}
-
+\label{Section Conversion N liste B}
 \todo{faire une petite intro la dessus}
 
 
@@ -413,47 +414,48 @@ Nous avons en notre possession l'ensemble des théorèmes nécéssaires pour la 
 
 
 %%---------------------------Conversion Opcode list B---------------------------
-\section{Conversion Opcode liste B}
+\section{Conversion Etiquette vers N}
 \label{partieOpcode}
 
-\todo{faire une phrase d'intro de ça}
-
+Une instruction possède une étiquette ainsi que des opérandes (\ref{partieMMIX}).
+Pour réussir à encoder ou décoder une instruction il nous faut donc dabord
+réussir à convertire une étiquette en un entier N \todo{symbol}.
+Pourquoi cette conversion s'effectue vers l'ensemble des entiers naturels
+et non vers les listes de B \todo{symbol}, tout simplement pour éviter
+de les hardcoder \todo{change}. Nous utiliserons les fonctions définies dans
+la section précédente \ref{Section Conversion N liste B} lorsque nous souhaiterons transformer nos entiers naturels.
 
 %%---------Structure de donnée----------------
 \subsection{Structure de donnée}
 \label{Structure de donnee}
-La première étape d'encodage ou de décodage d'une instruction se situe
-au niveau de l'étiquette. Dans le cas de MMIX comme vus en section \ref{partieMMIX}
-une étiquette est associée à un unique opcode. Une façon de stocker cette
-correspondance est d'utilisé des paires.
+Dans la specification du langage MMIX (section \ref{partieMMIX})
+une étiquette est associée à un unique opcode. Nous souhaitons donc
+utilisé un type de donnée permettant de realiser l'association de ces deux éléments,
+ce qui nous conduit à utiliser le produit cartésien suivant: \todo{je sais pas exactement si je peux dire ça}
 \codefrom{src}{association_list}{assoc}
 
 Nous avons maintenant une représentation pour les associations il nous faut
 maintenant stocker l'ensemble de celles ci. Etant donné que le nombre
-d'instructions est de 256 utilisé une représentation sous forme
-de liste est envisageable. Un argument supplémentaire est que la liste
+d'instructions est de 256, l'utilisation des listes est envisageable.
+Un argument supplémentaire est que la liste
 est un type inductif qui nous permettra de raisonner plus aisement
 lors des preuves étant donné sa relative simplicité. En effet on pourrait utiliser
-un dictionnaire pour réduire la complexité, cependant l'utilisation de ce genre
-de type de donnée rendrais les preuves plus complexes \todo{pas sur au final :p}.
+un dictionnaire pour réduire la complexité, cependant l'utilisation de ce 
+type de donnée rendrais les preuves plus complexes \todo{pas sur au final :p}.
 Nous obtenons donc le type suivant pour représenté notre collection d'associations:
 
 \codefrom{src}{association_list}{tag_opcode_assoc}
 
-\remark{Un autre argument en faveur de l'utilisation des listes à l'instard des
-  dictionnaires est le fait que cette liste sera définie une unique fois et pourra être utiliser
-  pour effectuer les deux sens de la correspondance.
+\remark{L'utilisation des listes à l'instard des
+  dictionnaires permet également de n'utiliser qu'une seul liste d'association qui
+  permettra d'encoder et de decoder contrairement à ce dernier.
 }
-
-\todo{peut etre placer une remarque sur le fait que on stocke un nat et pas directement
-  la liste de booleen qui correspond}
-\todo{C'est même sur qu'il va falloir en parler de ça}
 
 
 \todo{faire un paragraphe de pk il faut pas nécéssairement plus d'informations dans la liste
   d'association avec notre représentation des données ``c'est maintenant que le fait d'avoir tout mis a plat prend son sens
 étant donné que notre liste d'association est très simple ce qui nous permet de faciliter les preuves sur celles ci}
-
+\todo{enfaite je pense que c'est plus tard que on en parlera a voir}
 
 %%-----------lookup et lookdown------
 \subsection{Fonctions de recherche}
@@ -468,32 +470,30 @@ Encore une fois l'utilisation de la monade option est indispensable ici car
 on ne peut pas garantir que pour une liste donnée nous trouverons l'entier
 qui lui est associé. Notre travail sera de démontrer que cette fonction n'échoue pas
 sur une liste contenant l'ensemble des associations. Nous y reviendrons dans la section
-\todo{mettre la ref}.
-Voici la fonction effectuant la recherche inverse en suivant le même principe:
+\ref{Lemmeslol}
+Voici la fonction effectuant la recherche dans le sens inverse en suivant le même principe:
 
 \codefrom{src}{association_list}{lookdown}
-
-\todo{peut etre conclure}
-
 
 
 
 %%----------Lemmes----------
 \subsection{Lemmes}
+\label{Lemmeslol}
 
 Avant de commencer toute preuve il nous faut définir de manière statique une liste
 contenant l'ensemble des associations entre les ``tag'' \todo{encore typo} et leur entier naturel associé.
 
-\todo{faire cet import et faire un truc sympas pour montrer que les premières lignes}
-\codefrom{src}{association_list}{lol}
 
-Tous les théorèmes que nous définirons se baserons sur cette liste ``encdec''\todo{typo}. \\
-Nous somme ici face à un problème car pour vérifier que la liste contient bien l'ensemble des
-associations nécéssaires le seul moyens de le faire est de calculer dynamiquement cela.
-Mais nous avons besoin de cette propriété afin de pouvoir réaliser nos futures preuves.
-Il va nous falloir introduire un nouveau méchanisme permettant à partir d'un résultat obtenue
-par calcul d'obtenir une proposition traduisant ce résultat dans le monde des propositions.
-\todo{peut être améliorer la phrase précédente}.
+\codefrom{src}{association_list}{encdec}
+.....\\ \todo{faire un peut plus jolie avec les 3 petits points}
+
+Tous les théorèmes que nous définirons se baserons sur la liste ``encdec''\todo{typo}. \\
+Nous avons besoin de vérifier que la liste contient bien l'ensemble des associations,
+il existe deux manière de faire. Une première façon qui consiste à faire une analyse de cas
+au sein de la preuve sur le type tag.
+Une autre méthode consiste à vérifier de façon calculatoire cette propriété, puis de montrer
+une équivalence entre ce calcul et sa proposition associée. 
 Cette opération en Coq peut être réaliser avec l'aide du type ``reflect'':
 
 \codefrom{src}{association_list}{reflect}
@@ -509,26 +509,26 @@ de P est équivalente à ``b = true''. Ce principe est illustré par le théorè
 \codefrom{rapport}{definitions}{reflect_iff}
 
 
-Mettons de côté le type ``reflect'' et définissons maintenant un ensemble de
-fonctions permettant de vérifier une propriété sur l'ensemble de nos tag.
-Il nous faut donc définir des fonctions comme celles ci pour chaque sous type de tag: \todo{sous type ça fait ambigu}
-
-\codefrom{src}{association_list}{forall_tag_uno}
-
-Pour obtenir la fonction suivante:
+Mettons de côté le type ``reflect'' et définissons maintenant une fonction
+pour vérifier calculatoirement un prédicat sur l'ensemble des tags:
 
 \codefrom{src}{association_list}{forall_tag}
 
-Grâce à ces fonctions nous allons pouvoir vérifier si un prédicat est vraie pour l'ensemble des tag
-de notre language. \\
+L'ensemble des fonctions ``forall\_tag\_...'' suivent le même schéma que la fonction suivante:
 
-Nous allons maintenant prouver un premier théorème:
+\codefrom{src}{association_list}{forall_tag_uno}
+
+Tout comme nous l'avions fait lorsque nous avions définie la fonction d'égalité sur les tags \ref{LemmesAST},
+nous souhaitons pouvoir passer du monde calculatoire au monde propositionnel:
+
+\codefrom{src}{association_list}{helpBefore1}
+\codefrom{src}{association_list}{helpBefore2}
+
+lol
+
 \codefrom{src}{association_list}{forall_tagP}
 
-Ce théorème est très intérressant (même si en l'état il n'est pas très utile) car il nous permet
-d'affimer au travers de reflect de passer du monde des propositions ``(forall (t : tag), reflect (P t) (f t))''
-à celui du calcul avec notre fonction ``forall\_tag'' ``reflect (forall t, P t) (forall\_tag f)''.
-Pour prouver ce théorème il nous faut deux théorème préliminaires permettant
+
 \todo{parler des théorèmes help mais enfaite c'est un des help qui fait ce que je dis au dessus}
 
 
@@ -709,7 +709,13 @@ Nous pouvons maintenant définir les théorèmes finaux de notre assembleur qui 
 
 
 
+
+
+
 \section{Conclusion}
+
+
+
 
 \end{document}
                
