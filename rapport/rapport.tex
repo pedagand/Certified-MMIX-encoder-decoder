@@ -101,23 +101,25 @@
 
 \section{Introduction}
 
+
+
 Un assembleur est un programme permettant de traduire des instructions lisibles par un être humain vers
 une de leur représentation binaire associée afin d'être éxécutées par le processeur. Contrairement à un compilateur
 qui effectue lui aussi un travail de traduction, l'assembleur se focalise uniquement sur l'analyse syntaxique
 et non sur l'aspect sémantique.
 Il existe de nombreux langages 
 assembleurs pour citer les plus connus \fun{x86}, \fun{arm}.
-Le programme KVM \todo{mettre une ref}
-permet d'effectuer cette traduction \todo{chercher si c'est que pour x86}.
-Cependant certains problèmes on été relevés au niveau de la traduction.
+Le programme KVM
+utilise nottament une fonction de décodage des instructions.
+Cependant certains problèmes on été relevés au niveau de celle ci.
 Même si ces problèmes on été résolus on ne peut à l'heure actuelle pas garantir que d'autre bugs ne seront pas
-découverts dans les années à venir.
+découverts dans les années à venir ~\citep{Amit:2015:VCV:2815400.2815420}.
 
 Prenons l'exemple d'un autre logiciel dont l'utilisation est très répandue : \fun{gcc}. C'est l'un des compilateurs
 du langage C le plus utilisé à l'heure actuelle et pourtant il existe encore des
 problèmes avec celui- ci. C'est ce qu'a démontré Xavier Leroy en concevant un compilateur certifié pour le langage C \fun{Compcert}
-\todo{ref}. Après avoir développé celui- ci il à comparé les résultats de \fun{Compcert} avec \fun{GCC}
-et il a relevé plus de \todo{mettre les chiffres et finir la phrase}.
+~\citep{Leroy14thecompcert}. 
+Après avoir testé les deux compilateurs certains bugs avec \fun{gcc} on été relevés et aucuns avec \fun{compcert}.
 
 
 Mais comment garantir qu'un programme s'exécute correctement? En quoi consiste la réalisation d'un logiciel certifié?
@@ -136,9 +138,9 @@ de ce type de programme est très grande. Cela est du au nombre d'instructions a
 la spécification du langage peut être particulièrement riche.
 Les assistants de preuves se prêtent très bien à ce genre de problème car l'on peut prouver des
 propriétés sur des ensembles (dans notre cas des instructions) et réaliser une seule preuve pour
-un ensemble donné. Pour ce projet l'assistant de preuve utilisé sera le langage \fun{Coq}.
+un ensemble donné. Pour ce projet l'assistant de preuve utilisé sera le langage \fun{Coq} ~\citep{bertot:coqart}.
 
-Une motivation supplémentaire est la continuation des travaux menés par \todo{mettre des noms}.
+Une motivation supplémentaire est la continuation des travaux initiés par Compcert.
 Le compilateur \fun{Compcert} génère du langage assembleur x86, mais il n'existe pas
 de programme permettant de garantir sa traduction en bits.
 C'est donc le but de ce projet qui est la réalisation d'un assembleur x86 certifié.
@@ -159,7 +161,7 @@ Voici une liste des réalisations apportées pour mener à bien ce projet:
 \item Première version des fonctions \fun{encode} et \fun{decode} \ref{Encode Decode}
 \item Ajout de l'ensemble des instructions de MMIX dans le programme.
 \item Tentative de remaniement de la représentation des données afin de factoriser les preuves \ref{LemmesEncode}.
-\item Lectures sur le sujet des librairies de parser pour l'appliquer à MMIX.
+\item Lectures sur le sujet des librairies de parser pour l'appliquer à MMIX ~\citep{Swierstra2008CombinatorPA}.
 \end{enumerate}
 
 
@@ -614,7 +616,7 @@ définir de nouvelles notations comme celle ci:
 
 
 %%--------Encode decode-----
-\subsection{Implementation des fonctions Encode et Decode}
+\subsection{Implémentation des fonctions Encode et Decode}
 
 Commençons par la définition de la fonction encode. D'après le type instruction \ref{partieMMIX}
 chaque instruction s'encode différement, nous allons devoir définir une fonction comme celle- ci
@@ -733,7 +735,7 @@ Grâce aux combinateurs de parseurs nous pourrions crée dynamiquement de nouvea
 permettre de parser l'ensemble des instructions avec un code factoriser. Le but serait donc de l'implémenter
 dans un premier temps pour MMIX puis il faudrait adapter celui- ci pour suivre la spécification de x86.
 
-%% \bibliographystyle{abbrvnat}
-%% \bibliography{rapport.bib}  
+\bibliographystyle{abbrvnat}
+\bibliography{rapport.bib}  
 
 \end{document}
