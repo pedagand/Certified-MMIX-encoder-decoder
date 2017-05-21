@@ -342,8 +342,8 @@ en forme décimale. Passons maintenant à la fonction effectuant l'opération in
 \codefrom{src}{binary}{nbit}
 
 
-Ici cette fonction possède plusieurs subtilités d'implémentation dues à des restrictions dues
-à une restriction du langage Coq.\todo{tu as répété deux fois dues à ?}
+Ici cette fonction possède plusieurs subtilités d'implémentation dues
+à une restriction du langage Coq.
 
 La première chose que l'on peut remarquer se situe au niveau des arguments de
 la fonction. En effet nous souhaitons simplement encoder un entier naturel vers
@@ -353,20 +353,17 @@ En réalité nous souhaiterions pouvoir écrire notre fonction comme ceci
 \codefromOcaml{rapport}{example}{nbit}
 
 Cependant cette implémentation est impossible avec Coq car celui- ci utilise
-des opérateurs de points fixes \todo{lol j'ai pas tout compris à ce truc je suis
-  pas sur de ce que je met} et dans ce dernier exemple l'appel récursif ne s'éffectue
+des opérateurs de points fixes et dans ce dernier exemple l'appel récursif ne s'éffectue
 pas avec le prédécesseur de \fun{k}  mais avec le
 résultat de \fun{k} par deux. Lors des preuves si l'on fait des récursions sans faire appel
-au prédécesseur nous ne pourrons pas faire de raisonement par induction. Coq n'accepte les
-récursions que sur les ensembles finis \todo{c'est pas ce mot la exact je crois vérifier dans le cours d'aps}
-
+au prédécesseur nous ne pourrons pas faire de raisonement par induction. 
 
 \remark{Dans notre cas cette fonction nous convient parfaitement car nous souhaitons
   obtenir une liste de booléens de taille déterminée. Cependant cela nous permet d'illustrer
   la façon dont Coq définit la récursion}
 
 On pourra aussi noter le type de retour de la fonction.
-On utilise une monade\todo{c'est quoi une monade.?} bien connue des programmeurs fonctionnels au travers du type
+On utilise une monade bien connue des programmeurs fonctionnels au travers du type
 \fun{option}. Cela nous permet de
 dire que la fonction peut échouer sans pour autant devoir renvoyer une valeur par
 défaut ou lever une exception (en d'autres termes que la fonction est partielle). Ici le cas ou la fonction peut échouer est lorsque
@@ -379,6 +376,7 @@ on ne peut pas réaliser la transformation.
 
 %%--------------Lemmes-----------
 \subsection{Lemmes}
+\label{lemmes bits}
 
 Il nous faut maintenant nous demander quelles sont les propriétés qui nous interressent sur
 les deux fonctions que nous venons de définir dans la section \ref{Fonctions de conversion}.
@@ -399,14 +397,14 @@ que nous devons utiliser l'implication pour ne considérer que ces cas précis. 
 
 Il est maintenant question de définir les deux théorèmes les plus importants de
 cette section. Notre but pour l'ensemble des fonctions que l'on définit est de
-montrer qu'elles sont \todo{trouver le mot ici (c'est pas symétriques mais un truc dans le genre)}
+montrer qu'elles sont inverses.
 car elles seront utilisées dans l'encodage et le décodage des instructions \ref{Encode Decode}
 Voici donc le premier théorème que nous voulons prouver:
 
 \codefrom{src}{binary}{nbitn}
 
-Comme pour le lemme précédent ce théorème suit la même structure d'implication en raison des effets
-de bords induit par la monade option.\todo{c'est français ça?}
+Comme pour le lemme précédent ce théorème suit la même structure avec une implication en raison des effets
+de bords.
 Pour le théorème suivant nous avons besoin d'émettre une hypothèse supplémentaire sur l'argument
 \fun{n}. Si nous n'effectuons pas cette assertion supplémentaire le
 théorème n'a pas de sens et n'est par conséquent pas prouvable.
@@ -423,9 +421,9 @@ théorème n'a pas de sens et n'est par conséquent pas prouvable.
 
 Une instruction possède une étiquette ainsi que des opérandes (\ref{partieMMIX}).
 Pour réussir à encoder ou décoder une instruction il nous faut donc d'abord
-réussir à convertir une étiquette en un entier N \todo{symbol}.
+réussir à convertir une étiquette en un entier \ensuremath{\mathbb{N}}.
 Pourquoi cette conversion s'effectue-t-elle vers l'ensemble des entiers naturels
-et non vers les listes de B \todo{symbol}? Tout simplement pour éviter
+et non vers les listes de \ensuremath{\mathbb{B}}? Tout simplement pour éviter
 de les rédiger statiquement. Nous utiliserons les fonctions définies dans
 la section précédente \ref{Section Conversion N liste B} lorsque nous souhaiterons transformer nos entiers naturels.
 
@@ -435,7 +433,7 @@ la section précédente \ref{Section Conversion N liste B} lorsque nous souhaite
 Dans la spécification du langage MMIX (section \ref{partieMMIX})
 une étiquette est associée à un unique opcode. Nous souhaitons donc
 utiliser un type de données permettant de réaliser l'association de ces deux éléments,
-ce qui nous conduit à utiliser le produit cartésien suivant: \todo{je sais pas exactement si je peux dire ça}
+ce qui nous conduit à utiliser le produit cartésien suivant:
 \codefrom{src}{association_list}{assoc}
 
 Etant donné que le nombre
@@ -463,7 +461,7 @@ Nous obtenons donc le type suivant pour représenter notre collection d'associat
 \subsection{Fonctions de recherche}
 
 Il est désormais question de réaliser deux fonctions permettant la recherche
-au sein d'une liste d'association telle  que celle définie dans la section précédente.\todo {si au pluriel il faut accorder donc une liste d'asociations telles que celles défiinies}
+au sein d'une liste d'associations telles  que celle définies dans la section précédente.
 \ref{Structure de donnee}.
 
 \codefrom{src}{association_list}{lookup}
@@ -526,13 +524,13 @@ nous souhaitons pouvoir passer du monde calculatoire au monde propositionnel:
 \codefrom{src}{association_list}{helpBefore1}
 \codefrom{src}{association_list}{helpBefore2}
 
-Afin de définir des prédicats pour la fonction ``forall\_tag'' il nous faut définir un
-équivalent au connecteur propositionnel \todo{mettre le symbole implication} :
+Afin de définir des prédicats pour la fonction \fun{forall\_tag} il nous faut définir un
+équivalent au connecteur propositionnel \ensuremath{\rightarrow} :
 
 \codefrom{src}{association_list}{imply}
 
-L'obectif final de cette section est de démontrer les théorèmes suivants (dont la structure est analogue aux lemmes prouver\todo{les lemmes prouvés ou bien il faut prouver?}
-en dans la section précédente \todo{mettre la ref}):
+L'obectif final de cette section est de démontrer les théorèmes suivants (dont la structure est analogue aux lemmes prouvés
+en dans la section précédente \ref{lemmes bits}):
 
 \codefrom{src}{association_list}{lookup_lookdown}
 \codefrom{src}{association_list}{lookdown_lookup}
@@ -554,28 +552,24 @@ du script de preuves du théorème ``lookup\_lookdown'' que voici:
 Certains lemmes ont ici été passés volontairement sous silence car l'objectif n'est pas
 de comprendre reflect dans les moindres détails mais simplement de comprendre son intérêt.
 
-\todo{peut etre conclure}
 
 
 %%------------------------Encode Decode----------------------
-\section{Encode Decode}
+\section{Encode et decode}
 \label{Encode Decode}
 
-\todo{une petite phrase qui dit que le type des tag lors du decode nous permet de savoir ce que l'on doit faire exactement}
-\todo{introduction peut etre parler à l'avance du problème d'avoir utiliser un truc bien exhaustif}
-
-
+Nous arrivons à la dernière partie du programme, l'enjeu de cette section sera de combiner l'ensemble des fonctions
+déjà définies pour obtenir un assembleur fonctionnel.
 
 %%---------Fcts prélminaires -------
 \subsection{Fonctions prélminiaires}
 
 Afin de réaliser les fonctions d'encodage et de décodage de nos instructions il nous manque encore quelques opérations.
-Les premières fonctions que nous allons définir deux fonctions permettant de transformer une opérande en liste de booleens.\todo{il doit manquer un motaprès définir}
+Les premières fonctions que nous allons définir sont deux fonctions permettant de transformer une opérande en liste de booleens.
 
 \codefrom{src}{encode}{operand_to_bin}
 
-De façon similaire il nous faut aussi une fonction permettant d'encoder des opérandes lorsque celles- ci seront utilisées dans
-les instructions à 2 opérandes c'est à dire que celle- ci aura une taille de 16 \todo{refaire cette phrase}
+Cette fonction encode des operandes sur 8 bits, il nous faut une fonction analogue pour les opérandes sur 16 bits.
 
 \codefrom{src}{encode}{operand_to_bin_double}
 
@@ -583,7 +577,6 @@ Définisson quelques lemmes sur ces nouvelles fonctions.
 \codefrom{src}{encode}{operand_to_bin_hypothesis_reg}
 \codefrom{src}{encode}{operand_to_bin_hypothesis_imm}
 \codefrom{src}{encode}{operand_to_bin_size}
-\todo{peut etre commenter un peu plus ce genre de choses}
 
 
 Pour la fonction de décodage nous aurons besoin d'une fonction permettant de découper
@@ -591,20 +584,15 @@ une liste de booléens en plusieurs sous listes. Voici la fonction qui effectura
 
 \codefrom{src}{encode}{get_first_n_bit}
 
-La fonction retourne un couple de deux listes, la première correspond aux ``size'' premiers
+La fonction retourne un couple de deux listes, la première correspond aux \fun{size} premiers
 bits de la liste et la seconde au reste  de la liste. Le fait de retourner le reste de la liste
 nous permettra de découper celle- ci à nouveau.
-\todo{relire ici}
 
 
 
 
-%%-----------Encode--------
-\subsection{Encode}
 
-\todo{phrase d'intro}
-
-\subsubsection{Monade bind}
+\subsection{Monade bind}
 
 La fonction encode utilise les fonctions que nous avons définies dans les sections précédentes qui sont généralement
 des fonctions partielles. Lorsque l'on souhaite utiliser leur valeur de retour nous sommes obligés de faire un
@@ -618,11 +606,9 @@ afin de faciliter l'utilisation de ces fonctions partielles:
 \codefrom{src}{encode}{monade}
 
 Nous avons maintenant une fonction bind qui nous permet d'automatiser ce filtrage. Coq nous permet de
-définir de nouvelles notations \todo{je suis pas sur du traits}
+définir de nouvelles notations comme celle ci:
 
 \codefrom{src}{encode}{notation}
-
-
 
 
 
@@ -630,7 +616,7 @@ définir de nouvelles notations \todo{je suis pas sur du traits}
 %%--------Encode decode-----
 \subsection{Implementation des fonctions Encode et Decode}
 
-Commençons par la définition de la fonction encode. D'après le type instruction \todo{mettre la ref}
+Commençons par la définition de la fonction encode. D'après le type instruction \ref{partieMMIX}
 chaque instruction s'encode différement, nous allons devoir définir une fonction comme celle- ci
 pour chaque type d'instruction:
 
