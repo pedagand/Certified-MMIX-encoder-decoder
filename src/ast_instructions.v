@@ -2,7 +2,6 @@ Require Import List.
  
 (*=tag_definition *)
 Inductive tag_ter_normal :=
-(* Integer arithmetic *)
 | ADD : tag_ter_normal
 | SUB : tag_ter_normal
 (*=End *)
@@ -364,7 +363,8 @@ Proof.
   destruct t ; destruct t ; reflexivity.
 Qed.
 (*=tag_beq_different *)  
-Lemma tag_beq_different : forall (t1 t2 : tag), tag_beq t1 t2 = true -> t1 = t2.
+Lemma tag_beq_different : forall (t1 t2 : tag),
+    tag_beq t1 t2 = true -> t1 = t2.
 (*=End *)
 Proof.
   intros.
