@@ -105,49 +105,49 @@
   que l'encodage et le decodage préserve l'instruction (a bien rédiger haha)}
 
 Un assembleur est un programme permettant de traduire des instructions lisibles par un être humain vers
-une leur représentation binaire associée afin d'être éxécutées par le processeur. Contrairement à un compilateur
+une \todo{une de leur} leur représentation binaire associée afin d'être éxécutées par le processeur. Contrairement à un compilateur
 qui effectue lui aussi un travail de traduction, l'assembleur se focalise uniquement sur l'analyse syntaxique
 et non sur l'aspect sémantique.
-Il existe de nombreux langages
-assembleurs pour cité les plus connus \todo{mettre les plus connus}.
+Il existe de nombreux langages 
+assembleurs pour citer les plus connus \todo{mettre les plus connus}.
 Le programme KVM \todo{mettre une ref} qui fait partie du noyau linux depuis la version \todo{mettre la version}
 permet d'effectuer cette traduction \todo{chercher si c'est que pour x86}.
-Cependant certains problèmes on été relevées au niveau de la \todo{Chercher un mot}.
-Même si ces problèmes on été résolus on ne peut à l'heure actuelle pas garantire que d'autre bugs ne seront pas
-découvert dans les années à venir.
+Cependant certains problèmes on été relevés au niveau de la \todo{Chercher un mot}.
+Même si ces problèmes on été résolus on ne peut à l'heure actuelle pas garantir que d'autre bugs ne seront pas
+découverts dans les années à venir.
 
 Prenons l'exemple d'un autre logiciel dont l'utilisation est très répandue : gcc. C'est le compilateur
 du langage C le plus utilisé à l'heure actuelle \todo{Pas sur haha} et pourtant il existe encore des
-problèmes avec celui ci. C'est ce qu'a démontré Xavier Leroy en concevant un compilateur certifié pour le langage C ``Compcert''
-\todo{mettre un max de ref}. Après avoir développé celui ci il à comparé les résultats de ``Compcert'' avec ``GCC''
+problèmes avec celui- ci. C'est ce qu'a démontré Xavier Leroy en concevant un compilateur certifié pour le langage C ``Compcert''
+\todo{mettre un max de ref}. Après avoir développé celui- ci il à comparé les résultats de ``Compcert'' avec ``GCC''
 et il a relevé plus de \todo{mettre les chiffres et finir la phrase}.
 
 
-Mais comment garantir qu'un programme s'éxécute correctement, en quoi consiste la réalisation d'un logiciel certifié.
+Mais comment garantir qu'un programme s'exécute correctement, en quoi consiste la réalisation d'un logiciel certifié.\todo{manque les points d'interrogation}
 Ces questions sont des questions centrales depuis le développement de l'informatique, et de nombreux travaux ont été
-réalisées sur ce sujet. Les méthodes pour atteindre cet objectif sont diverses \todo{parler des différentes méthodes qui éxistent et dire
-que on va choisir les assistants de preuve}.
+réalisés sur ce sujet. Les méthodes pour atteindre cet objectif sont diverses \todo{parler des différentes méthodes qui éxistent et dire
+que l'on va choisir les assistants de preuve}.
 
 
-Les assistants de preuves permettent de crée des programmes sur lesquels on énonce des propriétés que l'on prouve par
-la suite avec celui ci. 
-Par exemple le noyau de coq a été prouvé donc on est en droit de (après on ne sais jamais si une faille ne sera pas découverte
+Les assistants de preuves permettent de créer des programmes sur lesquels on énonce des propriétés que l'on prouve par
+la suite avec celui- ci. 
+Par exemple le noyau de coq a été prouvé donc on est en droit de (après on ne sait jamais si une faille ne sera pas découverte
 mais cela réduit énormément la probabilité de recontrer un bug \todo{finir cette petite partie}
 
-La difficulté lors de la réalisation d'un assembleur ne se situe pas en hauteur en effet le nombre de
+La difficulté lors de la réalisation d'un assembleur ne se situe pas en hauteur; en effet le nombre de
 fonctions nécéssaires n'est pas très conséquent \todo{bof reformuler}. Par contre la complexité en largeur
-de ce type de programme est très grande. Cela est due au nombre d'instructions ainsi qu'a leur syntaxe qui selon
-la spécification du langage peut etre particulière.
+de ce type de programme est très grande. Cela est du au nombre d'instructions ainsi qu'à leur syntaxe qui selon
+la spécification du langage peut être particulière.
 Les assistants de preuves se prêtent très bien à ce genre de problème car l'on peut prouver des
-propriétés sur des ensembles (dans notre cas des instructions) et réaliser une seul preuve pour
+propriétés sur des ensembles (dans notre cas des instructions) et réaliser une seule preuve pour
 un ensemble donné.
 
 Une motivation supplémentaire est la continuation des travaux menés par \todo{mettre des noms}.
-Le compilateur ``Compcert'' génère de du langage assembleur x86, mais il n'existe pas
-de programme permettant de garantire sa traduction en bits.
+Le compilateur ``Compcert'' génère du langage assembleur x86, mais il n'existe pas
+de programme permettant de garantir sa traduction en bits.
 C'est donc le but de ce projet qui est la réalisation d'un assembleur x86 certifié.
 
-Afin de mener a bien ce projet et au vus de la complexité de la specification de x86,
+Afin de mener à bien ce projet et vue la complexité de la spécification de x86,
 nous allons tout d'abord réaliser un assembleur préliminaire basé sur le langage MMIX.
 
 
@@ -157,13 +157,13 @@ nous allons tout d'abord réaliser un assembleur préliminaire basé sur le lang
 Voici une liste des réalisations apportées pour mener à bien ce projet:
 \begin{enumerate}
 \item Ecole d'hiver de Coq à sophia Antipolis de Yves Bertot.
-\item Réalisation de la conversion d'entier vers une représentation binaire \ref{Section Conversion N liste B}.
+\item Réalisation de la conversion d'entiers vers une représentation binaire \ref{Section Conversion N liste B}.
 \item Première représentation des données pour MMIX (seulement 2 instructions).
-\item Travail sur la réflexion afin d'implémenter les théorèmes sur la liste d'association \ref{Lemmeslol}.
+\item Travail sur la réflexion afin d'implémenter les théorèmes sur la liste d'association\todo{je mettrais associatins au pluriel à voir} \ref{Lemmeslol}.
 \item Première version des fonctions \fun{encode} et \fun{decode} \ref{Encode Decode}
 \item Ajout de l'ensemble des instructions de MMIX dans le programme.
-\item Tentative de remaniment de la représentation des données afin de factoriser les preuves \ref{LemmesEncode}.
-\item Lectures sur le sujet des librairies de parser pour l'appliquer à MMIX.
+\item Tentative de remaniement de la représentation des données afin de factoriser les preuves \ref{LemmesEncode}.
+\item Lectures sur le sujet des librairies de parser\todo{pas de sens qui est Parser?} pour l'appliquer à MMIX.
 \end{enumerate}
 
 
@@ -175,7 +175,7 @@ Voici une liste des réalisations apportées pour mener à bien ce projet:
 \todo{finir cette introduction}
 Le langage d'assembleur MMIX à été crée par Donald Knuth en 1999.
 A l'heure actuelle il n'existe aucun processeur utilisant ce jeu d'instructions, il
-à été crée et utilisée dans un but pédagogique.
+à été crée et utilisé dans un but pédagogique.
 
 
 
@@ -183,7 +183,7 @@ A l'heure actuelle il n'existe aucun processeur utilisant ce jeu d'instructions,
 \subsection{Définition MMIX}
 
 Dans cette section il sera question de définir la syntaxe des instructions MMIX.
-MMIX est un jeu d'instruction RISK ce qui signifie que la taille des instructions
+MMIX est un jeu d'instructions RISK ce qui signifie que la taille des instructions
 est fixe. Une instruction a une taille de 32 bits, voici une première représentation:
 
 \begin{tabular}{|c|c|c|c|}
@@ -197,9 +197,9 @@ est fixe. Une instruction a une taille de 32 bits, voici une première représen
 \end{tabular}
 \remark{La dernière ligne du tableau permet simplement d'associer à chaque partie
   de l'instruction un nom de variable afin d'alléger le texte dans la suite du rapport}\\
-Les operandes peuvent être à la fois un immediat ou un registre.
-Une de ses spécificité de MMIX est la possibilité d'obtenir des operandes
-de plus grande taille en utilisant un nombre réduit de celles ci:\\
+Les operandes\todo{c'est quoi les opérandes?} peuvent être à la fois un immediat ou un registre.
+Une des spécificité de MMIX est la possibilité d'obtenir des operandes\todo{opérandes?}
+de plus grande taille en utilisant un nombre réduit de celles ci:\\\todo{je mettrais en en utilisant un nombre réduit}
 
 \begin{tabular}{|c|c|c|}
   \hline 
@@ -220,33 +220,33 @@ de plus grande taille en utilisant un nombre réduit de celles ci:\\
 \subsection{Représentation des données}
 \label{representation des donnees}
 
-Dans un premier temps j'ai fait le choix d'utiliser une représentation des données très exaustive sans
-chercher à la factoriser. Ce choix est due à mon apprentissage de Coq, il était préférable de ne pas
+Dans un premier temps j'ai fait le choix d'utiliser une représentation des données très exhaustive sans
+chercher à la factoriser. Ce choix est du à mon apprentissage de Coq, il était préférable de ne pas
 rajouter une difficulté supplémentaire lors de la réalisation des preuves.
-Un autre choix à été de stocker l'information sur la syntaxe de l'instruction dès les étiquettes.
-Cela permettra de ne pas mettre cette information dans la liste d'association, nous y reviendrons dans la
+Un autre choix à été de stocker l'information sur la syntaxe de l'instruction dès les étiquettes.\todo{pas très français}
+Cela permettra de ne pas mettre cette information dans la liste d'association\todo{associations au pluriel}, nous y reviendrons dans la
 section \ref{partieOpcode}.
 
 \codefrom{src}{ast_instructions}{tag}
 
-Chaque type d'étiquette sera associé à une syntaxe d'instruction par exemple le type ``tag\_ter\_normal''
-regroupe les tags ne pouvant être utilisés que pour les instructions dont les opérandes sont trois registres.
+Chaque type d'étiquette sera associé à une syntaxe d'instructions par exemple le type ``tag\_ter\_normal''
+regroupe les tags ne pouvant être utilisés que pour les instructions dont les opérandes sont trois registres.\todo{on dirait qu'il manque un mot}
 
 \codefrom{src}{ast_instructions}{tag_definition}
 ...
 
-\remark{Pour un langage assembleur tel que x86 il ne sera pas possible de definir les instructions de façon exhaustive il faudra
+\remark{Pour un langage assembleur tel que x86 il ne sera pas possible de définir les instructions de façon exhaustive il faudra
   utiliser une autre représentation des données.}\\ 
 
-Maintenant nous voulons définir un type de donnée qui puisse représenter une instruction.
-Etant donné que nous avons dissocié les différents types de tag en fonction de la syntaxe de l'instruction,
+Maintenant nous voulons définir un type de données qui puisse représenter une instruction.
+Etant donné que nous avons dissocié les différents types de tags en fonction de la syntaxe de l'instruction,
 nous allons poursuivre de manière analogue.
-En voici un exemple pour les instructions dont les 3 opérandes représentes des registres.
+Voici un exemple pour les instructions dont les 3 opérandes représentent des registres.
 
 \codefrom{src}{ast_instructions}{instruction_tern_n}
 
-L'utilisation du type enregisrement convient parfaitement pour réprésenter car il permet de stocker
-l'ensemble des informations de celles ci.
+L'utilisation du type enregisrement\todo{je mettrais ``enregistrement''} convient parfaitement pour représenter\todo{pour représenter quoi?} car il permet de stocker
+l'ensemble des informations de celles- ci.
 
 Nous obtenons donc le type suivant pour les instructions:
 \codefrom{src}{ast_instructions}{instruction}
@@ -257,17 +257,17 @@ Nous obtenons donc le type suivant pour les instructions:
 %%-------------Egalité---------------
 \subsection{Egalité entre deux éléments d'un type de donnée}
 Avant de passer à la section suivante attardons nous sur l'égalité de deux éléments de même type.
-\remark{Dans cette section nous nous attarderons uniquement sur les types de données iductifs}\\
-Si l'on souhaite définir une égalité pour le type de donnée suivant :
+\remark{Dans cette section nous nous attarderons uniquement sur les types de données inductifs}\\
+Si l'on souhaite définir une égalité pour le type de données suivant :
 \codefrom{rapport}{definitions}{example_type}
 
-Il va nous falloir crée une fonction exhaustive énumérant l'ensemble des cas pour determiner
+Il va nous falloir créer une fonction exhaustive énumérant l'ensemble des cas pour déterminer
 si les deux élements sont égaux ou non. Ce qui nous donne pour l'exemple précédent la fonction suivante:
 
 \codefrom{rapport}{definitions}{equal}
 
-Ce genre de fonctions sont très fastidieuses à rédiger et l'on constate déja la taille de celle ci
-pour un type de donnée composé de deux éléments.
+Ces fonctions sont très fastidieuses à rédiger et l'on constate déja la taille de celle ci
+pour un type de données composé de deux éléments.
 Si nous souhaitions écrire cette fonction le type \fun{tag} dans
 la section \ref{representation des donnees} la perte de temps serait considérable.
 Dans Coq il existe une commande qui va nous permettre de générer cette fonction
@@ -280,7 +280,7 @@ automatiquement, la voici:
 %%-------------Lemmes---------------
 \subsection{Lemmes}
 \label{LemmesAST}
-Voici un premier lemme qui nous sera très utile par la suite:
+Voici un premier lemme \todo{c'est quoi un lemme?}qui nous sera très utile par la suite:
 \codefrom{src}{ast_instructions}{tag_beq_different}
 Ici on désire montrer que si l'on prossède une preuve que deux étiquettes sont équivalentes
 à l'aide de notre fonction booléene alors on peut déduire une preuve
@@ -308,11 +308,11 @@ pour les instructions.
 \subsection{Représentation des bits}
 
 
-Il nous faut determiner un type de données pour représenter
+Il nous faut déterminer un type de données pour représenter
 les instructions sous forme binaires.
-Notre type de donnée doit pouvoir nous permettre de :
+Notre type de données doit pouvoir nous permettre de :
 \begin{enumerate}
-\item Ne pas avoir de restriction au niveau de la taille car lors du parsing d'un fichier binaire
+\item Ne pas avoir de restriction au niveau de la taille car lors du parsing d'un fichier binaire,
   on souhaite générer un flux de bits puis le découper au fur et à mesure du décodage.
 \item Pouvoir encoder un entier sur un nombre de bits quelconque.
 \item Il doit être simple car il est préférable que les preuves qui sont le coeur de ce projet restent
@@ -320,11 +320,11 @@ Notre type de donnée doit pouvoir nous permettre de :
 \end{enumerate}
 
 Il existe dans la librairie standard de Coq une représentation binaire pour les entiers naturels.
-Le problème de celle ci est que l'on ne peut pas représenter un entier naturel sur un nombre de bits différents
-que celui nécéssaire à son encodage. Nous ne pouvons pas nous permettre d'avoir une taille variable en
+Le problème de celle- ci est que l'on ne peut pas représenter un entier naturel sur un nombre de bits différents
+que celui nécessaire à son encodage. Nous ne pouvons pas nous permettre d'avoir une taille variable en
 fonction de la valeur encodée et cela contredirait le second pré-requis.
 
-La structure de donnée par excellence qui satisfait l'ensemble de nos prérequis est la liste de booléens.
+La structure de données par excellence qui satisfait l'ensemble de nos pré-requis est la liste de booléens.
 Un booléens représentant un bit et la liste le flux.
 
 \codefrom{src}{ast_instructions}{binary_instruction}
@@ -335,20 +335,20 @@ Un booléens représentant un bit et la liste le flux.
 %-------------Fcts de conversion --------------
 \subsection{Fonctions de conversion}
 \label{Fonctions de conversion}
-Maintenant que nous avons fixé une représentation pour nos suite de bits, commençons par définir
+Maintenant que nous avons fixé une représentation pour nos suites de bits, commençons par définir
 une fonction de conversion d'une liste de booléens vers un entier naturel:
 
 \codefrom{src}{binary}{bitn}
 
-Commençons par prêtter attention à cette fonction car elle est une simple implémentation
-d'une formule permettant de determiner la valeur d'un nombre sous forme binaire
-en forme décimal. Passons maintenant à la fonction effectuant l'opération inverse:
+Commençons par prêter attention à cette fonction car elle est une simple implémentation
+d'une formule permettant de déterminer la valeur d'un nombre sous forme binaire
+en forme décimale. Passons maintenant à la fonction effectuant l'opération inverse:
 
 \codefrom{src}{binary}{nbit}
 
 
-Ici cette fonction possède plusieurs subtilités d'implémentation dues à des restrictions du
-à une restriction du langage Coq.
+Ici cette fonction possède plusieurs subtilités d'implémentation dues à des restrictions dues
+à une restriction du langage Coq.\todo{tu as répété deux fois dues à ?}
 
 La première chose que l'on peut remarquer se situe au niveau des arguments de
 la fonction. En effet nous souhaitons simplement encoder un entier naturel vers
@@ -357,25 +357,25 @@ En réalité nous souhaiterions pouvoir écrire notre fonction comme ceci
 (implémentation en Ocaml):
 \codefromOcaml{rapport}{example}{nbit}
 
-Cependant cette implémentation est impossible avec Coq car celui ci utilise
+Cependant cette implémentation est impossible avec Coq car celui- ci utilise
 des opérateurs de points fixes \todo{lol j'ai pas tout compris à ce truc je suis
   pas sur de ce que je met} et dans ce dernier exemple l'appel récursif ne s'éffectue
 pas avec le prédécesseur de \fun{k}  mais avec le
-résultat de \fun{k} par deux. Lors des preuves si l'on fait des recursions sans faire appel
+résultat de \fun{k} par deux. Lors des preuves si l'on fait des récursions sans faire appel
 au prédécesseur nous ne pourrons pas faire de raisonement par induction. Coq n'accepte les
-récursions que sur les ensembles finis \todo{c'est pas ce mot la exacte je crois vérifier dans le cours d'aps}
+récursions que sur les ensembles finis \todo{c'est pas ce mot la exact je crois vérifier dans le cours d'aps}
 
 
 \remark{Dans notre cas cette fonction nous convient parfaitement car nous souhaitons
-  obtenir une liste de booléens de taille determinée. Cependant cela nous permet d'illustrer
-  la façon dont Coq définie la récursion}
+  obtenir une liste de booléens de taille déterminée. Cependant cela nous permet d'illustrer
+  la façon dont Coq définit la récursion}
 
 On pourra aussi noter le type de retour de la fonction.
-On utilise une monade bien connue des programmeurs fonctionnels au travers du type
+On utilise une monade\todo{c'est quoi une monade.?} bien connue des programmeurs fonctionnels au travers du type
 \fun{option}. Cela nous permet de
 dire que la fonction peut échouer sans pour autant devoir renvoyer une valeur par
-défaut où lever une exception (en d'autre terme que la fonction est partielle). Ici le cas ou la fonction peut échouer est lorsque
-l'entier naturel que l'on souhaite encoder nécéssite plus de bits que l'entier n alors
+défaut ou lever une exception (en d'autres termes que la fonction est partielle). Ici le cas ou la fonction peut échouer est lorsque
+l'entier naturel que l'on souhaite encoder nécessite plus de bits que l'entier n alors
 on ne peut pas réaliser la transformation.
 
 
@@ -385,7 +385,7 @@ on ne peut pas réaliser la transformation.
 %%--------------Lemmes-----------
 \subsection{Lemmes}
 
-Il nous faut maintenant nous demander quelles sont les propriétées qui nous intérressent sur
+Il nous faut maintenant nous demander quelles sont les propriétés qui nous interressent sur
 les deux fonctions que nous venons de définir dans la section \ref{Fonctions de conversion}.
 
 Une propriété qui s'avèrera surement utile par la suite est le Lemme suivant:
@@ -396,25 +396,25 @@ Ce lemme permet de vérifier que la taille d'une instruction produite par
 la fonction \fun{n_bit} est bien de la taille de l'argument n.
 
 
-Une des information importante à retenir de ce théorème est sa structure.
-En effet comme nous avons vus précédement \ref{Fonctions de conversion} la
+Une des informations importante à retenir de ce théorème est sa structure.
+En effet comme nous avons vu précédement \ref{Fonctions de conversion} la
 fonction \fun{n_bit} peut échouer, il nous faut donc vérifier cette propriété
-uniquement lorsque celle ci termine correctement. C'est pour cette raison
+uniquement lorsque celle- ci termine correctement. C'est pour cette raison
 que nous devons utiliser l'implication pour ne considérer que ces cas précis. \\
 
-Il est maintenant question de définir les deux théorèmes les plus important de
-cette section. Notre but pour l'ensemble des fonctions que l'on définis est de
+Il est maintenant question de définir les deux théorèmes les plus importants de
+cette section. Notre but pour l'ensemble des fonctions que l'on définit est de
 montrer qu'elles sont \todo{trouver le mot ici (c'est pas symétriques mais un truc dans le genre)}
-car elles seront utilisé dans l'encodage et decodage des instructions \ref{Encode Decode}
+car elles seront utilisées dans l'encodage et le décodage des instructions \ref{Encode Decode}
 Voici donc le premier théorème que nous voulons prouver:
 
 \codefrom{src}{binary}{nbitn}
 
 Comme pour le lemme précédent ce théorème suit la même structure d'implication en raison des effets
-de bords induit par la monade option.
+de bords induit par la monade option.\todo{c'est français ça?}
 Pour le théorème suivant nous avons besoin d'émettre une hypothèse supplémentaire sur l'argument
 \fun{n}. Si nous n'effectuons pas cette assertion supplémentaire le
-théorème n'a pas de sens et n'est pas conséquent pas prouvable.
+théorème n'a pas de sens et n'est par conséquent pas prouvable.
 
 \codefrom{src}{binary}{bitnbit}
 
@@ -427,48 +427,48 @@ théorème n'a pas de sens et n'est pas conséquent pas prouvable.
 \label{partieOpcode}
 
 Une instruction possède une étiquette ainsi que des opérandes (\ref{partieMMIX}).
-Pour réussir à encoder ou décoder une instruction il nous faut donc dabord
-réussir à convertire une étiquette en un entier N \todo{symbol}.
-Pourquoi cette conversion s'effectue vers l'ensemble des entiers naturels
-et non vers les listes de B \todo{symbol}, tout simplement pour éviter
+Pour réussir à encoder ou décoder une instruction il nous faut donc d'abord
+réussir à convertir une étiquette en un entier N \todo{symbol}.
+Pourquoi cette conversion s'effectue-t-elle vers l'ensemble des entiers naturels
+et non vers les listes de B \todo{symbol}? Tout simplement pour éviter
 de les rédiger statiquement. Nous utiliserons les fonctions définies dans
 la section précédente \ref{Section Conversion N liste B} lorsque nous souhaiterons transformer nos entiers naturels.
 
 %%---------Structure de donnée----------------
 \subsection{Structure de donnée}
 \label{Structure de donnee}
-Dans la specification du langage MMIX (section \ref{partieMMIX})
+Dans la spécification du langage MMIX (section \ref{partieMMIX})
 une étiquette est associée à un unique opcode. Nous souhaitons donc
-utilisé un type de donnée permettant de realiser l'association de ces deux éléments,
+utiliser un type de données permettant de réaliser l'association de ces deux éléments,
 ce qui nous conduit à utiliser le produit cartésien suivant: \todo{je sais pas exactement si je peux dire ça}
 \codefrom{src}{association_list}{assoc}
 
 Etant donné que le nombre
 d'instructions est de 256, l'utilisation des listes est envisageable.
 Un argument supplémentaire est que la liste
-est un type inductif qui nous permettra de raisonner plus aisement
+est un type inductif qui nous permettra de raisonner plus aisément
 lors des preuves étant donné sa relative simplicité. En effet on pourrait utiliser
 un dictionnaire pour réduire la complexité, cependant l'utilisation de ce 
-type de donnée rendrais les preuves plus compliquées.
-Nous obtenons donc le type suivant pour représenté notre collection d'associations:
+type de données rendrait les preuves plus compliquées.
+Nous obtenons donc le type suivant pour représenter notre collection d'associations:
 
 \codefrom{src}{association_list}{tag_opcode_assoc}
 
-\remark{L'utilisation des listes à l'instard des
-  dictionnaires permet également de n'utiliser qu'une seul liste d'association qui
-  permettra d'encoder et de decoder contrairement à ce dernier.
+\remark{L'utilisation des listes à l'instar des
+  dictionnaires permet également de n'utiliser qu'une seule liste d'associations qui
+  permettra d'encoder et de décoder contrairement à ce dernier.
 }
 
-\remark{J'ai fait le choix de ne pas me reposer sur la liste d'association pour stocker des informations sur le decodage
-  des instructions. En effet lors du décodage avec une telle liste d'association nous n'aurons pas d'information
-  sur la syntaxe de celle ci (type des operandes et nombre d'arguments). Cependant cette information sera obtenue ici
+\remark{J'ai fait le choix de ne pas me reposer sur la liste d'associations pour stocker des informations sur le décodage
+  des instructions. En effet lors du décodage avec une telle liste d'associations nous n'aurons pas d'information
+  sur la syntaxe de celle- ci (type des opérandes et nombre d'arguments). Cependant cette information sera obtenue ici
   grâce au type de l'étiquette qui nous indique la syntaxe. Ce choix sera critiqué dans la section \ref{Encode Decode}}
 
 %%-----------lookup et lookdown------
 \subsection{Fonctions de recherche}
 
 Il est désormais question de réaliser deux fonctions permettant la recherche
-au sein d'une liste d'association tel que celle définie dans la section précédente
+au sein d'une liste d'association telle  que celle définie dans la section précédente.\todo {si au pluriel il faut accorder donc une liste d'asociations telles que celles défiinies}
 \ref{Structure de donnee}.
 
 \codefrom{src}{association_list}{lookup}
@@ -497,20 +497,20 @@ contenant l'ensemble des associations entre les \fun{tag} et leur entier naturel
 
 Tous les théorèmes que nous définirons se baserons sur la liste \fun{encdec}. \\
 Nous avons besoin de vérifier que la liste contient bien l'ensemble des associations,
-il existe deux manière de faire. Une première façon qui consiste à faire une analyse de cas
+il existe deux manières de faire. Une première façon qui consiste à faire une analyse de cas
 au sein de la preuve sur le type \fun{tag}.
 Une autre méthode consiste à vérifier de façon calculatoire cette propriété, puis de montrer
 une équivalence entre ce calcul et sa proposition associée. 
-Cette opération en Coq peut être réaliser avec l'aide du type \fun{reflect}:
+Cette opération en Coq peut être réalisée avec l'aide du type \fun{reflect}:
 
 \codefrom{rapport}{definitions}{reflect}
 
 Pour mieux comprendre en quoi ce type va nous être utile, il faut comprendre son utilisation.
 Le type ``reflect'' est composé de deux constructeurs, si l'on possède un élément de type
 ``reflect P true'' alors cela signifie que notre élément est le constructeur ``ReflectT''
-et celui ci possède une preuve du prédicat ``P''. Le raisonement est le même pour ``reflect P false''
+et celui- ci possède une preuve du prédicat ``P''. Le raisonnement est le même pour ``reflect P false''
 sauf que dans ce cas on pourra obtenir une preuve de non ``P''. Pour vulgariser ce
-principe on peut dire que avoir une preuve de ``reflect P b'' implique que la preuve
+principe on peut dire qu' avoir une preuve de ``reflect P b'' implique que la preuve
 de P est équivalente à ``b = true''. Ce principe est illustré par le théorème suivant:
 
 \codefrom{rapport}{definitions}{reflect_iff}
@@ -525,7 +525,7 @@ L'ensemble des fonctions ``forall\_tag\_...'' suivent le même schéma que la fo
 
 \codefrom{src}{association_list}{forall_tag_uno}
 
-Tout comme nous l'avions fait lorsque nous avions définie la fonction d'égalité sur les tags \ref{LemmesAST},
+Tout comme nous l'avions fait lorsque nous avions défini la fonction d'égalité sur les tags \ref{LemmesAST},
 nous souhaitons pouvoir passer du monde calculatoire au monde propositionnel:
 
 \codefrom{src}{association_list}{helpBefore1}
@@ -536,28 +536,28 @@ Afin de définir des prédicats pour la fonction ``forall\_tag'' il nous faut d�
 
 \codefrom{src}{association_list}{imply}
 
-L'obectif final de cette section est de démontrer les théorèmes suivant (dont la structure est analogue aux lemmes prouver
+L'obectif final de cette section est de démontrer les théorèmes suivants (dont la structure est analogue aux lemmes prouver\todo{les lemmes prouvés ou bien il faut prouver?}
 en dans la section précédente \todo{mettre la ref}):
 
 \codefrom{src}{association_list}{lookup_lookdown}
 \codefrom{src}{association_list}{lookdown_lookup}
 
 
-Si nous souhaitons utiliser la reflection il nous faut définir des fonctions refletant
+Si nous souhaitons utiliser la réflection il nous faut définir des fonctions reflétant
 ces théorèmes dans l'ensemble des booléens. La fonction pour le théorème ``lookup\_lookdown''
 est la suivante:
 
 \codefrom{src}{association_list}{lookup_encdec}
 ``eq\_mtag'' et ``eq\_mtag'' sont simplement des fonctions d'égalité sur les types ``option tag'' et ``option nat''.
-L'intérêt d'avoir utiliser reflect pour réaliser nos preuves peut se voir immédiatement quand à la taille
-du script de preuve du théorème ``lookup\_lookdown'' que voici:
+L'intérêt d'avoir utilisé reflect pour réaliser nos preuves peut se voir immédiatement quant à la taille
+du script de preuves du théorème ``lookup\_lookdown'' que voici:
 
 \codefrom{src}{association_list}{lookup_lookdown}
 
 \codefrom{src}{association_list}{lookup_lookdown_script}
 
 Certains lemmes ont ici été passés volontairement sous silence car l'objectif n'est pas
-de comprendre reflect dans les moindres détails mais simplement de comprendre son itérêt.
+de comprendre reflect dans les moindres détails mais simplement de comprendre son intérêt.
 
 \todo{peut etre conclure}
 
@@ -574,13 +574,13 @@ de comprendre reflect dans les moindres détails mais simplement de comprendre s
 %%---------Fcts prélminaires -------
 \subsection{Fonctions prélminiaires}
 
-Afin de réaliser les fonctions d'encodage et de décodage de nos instructions il nous manque encore quelques operations.
-Les premières fonctions que nous allons définir deux fonctions permettant de transformer une operande en liste de booleens.
+Afin de réaliser les fonctions d'encodage et de décodage de nos instructions il nous manque encore quelques opérations.
+Les premières fonctions que nous allons définir deux fonctions permettant de transformer une opérande en liste de booleens.\todo{il doit manquer un motaprès définir}
 
 \codefrom{src}{encode}{operand_to_bin}
 
-De façon similaire il nous faut aussi une fonction permettant d'encoder des operandes lorsque celle ci seront utiliseé dans
-les instructions à 2 operandes c'est à dire que celle ci aura une taille de 16 \todo{refaire cette phrase}
+De façon similaire il nous faut aussi une fonction permettant d'encoder des opérandes lorsque celles- ci seront utilisées dans
+les instructions à 2 opérandes c'est à dire que celle- ci aura une taille de 16 \todo{refaire cette phrase}
 
 \codefrom{src}{encode}{operand_to_bin_double}
 
@@ -598,7 +598,7 @@ une liste de booléens en plusieurs sous listes. Voici la fonction qui effectura
 
 La fonction retourne un couple de deux listes, la première correspond aux ``size'' premiers
 bits de la liste et la seconde au reste  de la liste. Le fait de retourner le reste de la liste
-nous permettra de découper celle ci à nouveau.
+nous permettra de découper celle- ci à nouveau.
 \todo{relire ici}
 
 
@@ -611,13 +611,13 @@ nous permettra de découper celle ci à nouveau.
 
 \subsubsection{Monade bind}
 
-La fonction encode utilise les fonctions que nous avons définies dans les sections précédentes qui sont généralements
-des fonctions partiels. Lorsque l'on souhaite utiliser leur valeur de retour nous somme obliger de faire un
+La fonction encode utilise les fonctions que nous avons définies dans les sections précédentes qui sont généralement
+des fonctions partielles. Lorsque l'on souhaite utiliser leur valeur de retour nous sommes obligés de faire un
 filtrage de la forme :
 
 \codefrom{rapport}{definitions}{pattern_matching}
 
-Cette construction est très lourde dans la définition des fonctions nous allons donc crée une monade
+Cette construction est très lourde dans la définition des fonctions nous allons donc créer une monade
 afin de faciliter l'utilisation de ces fonctions partielles:
 
 \codefrom{src}{encode}{monade}
@@ -636,7 +636,7 @@ définir de nouvelles notations \todo{je suis pas sur du traits}
 \subsection{Implementation des fonctions Encode et Decode}
 
 Commençons par la définition de la fonction encode. D'après le type instruction \todo{mettre la ref}
-chaque instruction s'encode différement, nous allons devoir définir une fonction comme celle ci
+chaque instruction s'encode différement, nous allons devoir définir une fonction comme celle- ci
 pour chaque type d'instruction:
 
 \codefrom{src}{encode}{encode_t_n}
@@ -647,13 +647,13 @@ Ce qui nous permet de définir la fonction encode suivante:
 
 La fonction de décodage quant à elle n'est pas composée de plusieurs fonctions car l'entrée
 étant une liste de booléens.
-Voici une version partielle du code de decode:
+Voici une version partielle du code de décode:
 
 \codefrom{src}{encode}{decode}
 
 Ici la définition que nous avons utilisée pour les tags s'avère utile car elle nous permet
-une fois récupérer dans la liste d'association de déterminer immédiatement quel type
-d'instruction il nous faut crée.
+une fois récupérée dans la liste d'associations de déterminer immédiatement quel type
+d'instruction il nous faut créer.
 
 
 
@@ -667,14 +667,14 @@ type d'instructions.
 
 \codefrom{src}{encodeProof}{encode_decode_t_n}
 
-Le problème de la représentation actuelle des données fait que nous somme obliger de réaliser une preuve
+Le problème de la représentation actuelle des données fait que nous sommes obligés de réaliser une preuve
 similaire mais non triviale pour chaque type d'instruction. Cela crée énormément de redondance dans les preuves
 et cela n'est jamais bon signe. Nous verrons dans la partie future work \todo{faire la ref} les solutions envisageables afin
 de surmonter ce problème.
 Cela nous permet finalement d'obtenir la preuve qu'une instruction encoder par notre assembleur puis decoder par celui
 ci est identique. On a donc une preuve que la syntaxe est belle et bien préservée.
 
-Définissons le théorème opposée à celui ci à savoir :
+Définissons le théorème opposé à celui- ci à savoir :
 
 \codefrom{src}{encodeProof}{decode_encode}
 
@@ -688,21 +688,21 @@ ce qui rend une nouvelle fois la preuve très verbeuse et redondante.
 \subsection{Theorèmes finaux}
 
 A l'heure actuelle nous avons une preuve que notre assembleur produit bien \todo{finir cette phrase}
-pour une seul instruction. Cependant un assembleur complet travail sur un ensemble d'instructions
+pour une seule instruction. Cependant un assembleur complet travaille sur un ensemble d'instructions
 ou bien un flux de bits. Dans notre cas nous allons définir une fonction décodant une liste d'instructions et qui
-retourneras une liste de booléens de taille ``32 * length(liste\_instructions)''\todo{typo}.
+retournera une liste de booléens de taille ``32 * length(liste\_instructions)''\todo{typo}.
 Pour ce faire il nous faut une fonction préalable :
 
 \codefrom{src}{encode}{concat_listes_32}
 
 A noter le test sur la taille de la liste
 qui nous permettra d'obtenir une hypothèse supplémentaire lors de nos preuves.
-Etant donné que la fonction encode utilise la monade option nous somme obliger de définir une fonction
+Etant donné que la fonction encode utilise la monade option nous sommes obligés de définir une fonction
 traverse permettant de transformer une liste de type ``list (option A)'' en une liste de type ``list A''.
 
 \codefrom{src}{encode}{traverse}
 
-Voici la définition de la fonction encodant une liste d'insruction (pour la lisibilité celle ci est
+Voici la définition de la fonction encodant une liste d'insructions (pour la lisibilité celle- ci est
 divisée en 3 fonctions)
 
 \codefrom{src}{encode}{encode_flux}
@@ -714,7 +714,7 @@ en entrée en sous listes de taille 32, ce qui nous amène à la définition sui
 \codefrom{src}{encode}{cut_32}
 
 Nous pouvons maintenant définir la fonction permettant de transformer un flux de booléens
-en une liste d'instruction:
+en une liste d'instructions:
 
 \codefrom{src}{encode}{decode_flux}
 
@@ -726,8 +726,8 @@ Nous pouvons maintenant définir les théorèmes finaux de notre assembleur qui 
 
 \codefrom{src}{encode}{decode_flux_decoup_encode}
 
-\remark{Prouver ces deux théorèmes nécéssite un travail assez conséquent au niveau des fonctions
-  de découpage. Cependant ces preuves restant dans la même veine que celles que nous avons déja
+\remark{Prouver ces deux théorèmes nécessite un travail assez conséquent au niveau des fonctions
+  de découpage. Cependant ces preuves restant dans la même veine que celles que nous avons déjà
   vues précédement leur explication ne semble pas justifiée}
 \todo{regarder quand meme y en as peut etre une bien}
 
@@ -738,19 +738,19 @@ Nous pouvons maintenant définir les théorèmes finaux de notre assembleur qui 
 
 \section{Conclusion}
 
-Nous avons désormais un assembleur fonctionnel pour MMIX cependant celui ci ne permet pas encore de se lancer
+Nous avons désormais un assembleur fonctionnel pour MMIX cependant celui- ci ne permet pas encore de se lancer
 dans la réalisation de l'assembleur certifié x86.\\
 La première raison qui me pousse à d'abord améliorer le parseur de MMIX est la représentation des données.
 En effet la représentation présentée dans ce rapport est exhaustive car cela est encore possible avec
-MMIX. D'une part l'architecture RISK limite le nombre de format d'instructions. En x86 une instruction possède
+MMIX. D'une part l'architecture RISK limite le nombre de formats d'instructions. En x86 une instruction possède
 beaucoup plus de champs et la taille de celle ci diffère selon les instructions. J'ai commencé à explorer certaines
-pistes afin de factoriser MMIX que je ne présente pas dans ce rapport étant donné que celles ci n'ont pas encore abouties.
+pistes afin de factoriser MMIX que je ne présente pas dans ce rapport étant donné que celles- ci n'ont pas encore abouties.
 \\
-Une façon de résoudre ce problème de façon élégante et efficace serait de crée une librairie de parser.
-En effet un assembleur s'attardant uniquement sur la syntaxe est un cas particulier de parser.
+Une façon de résoudre ce problème de façon élégante et efficace serait de crée une librairie de parser.\todo{parser ou Parser?}
+En effet un assembleur s'attardant uniquement sur la syntaxe est un cas particulier de parser.\todo{idem majuscule ou non?}
 Grâce aux combinateurs de parseurs nous pourrions crée dynamiquement de nouveaux parser pour
 permettre de parser l'ensemble des instructions avec un code factoriser. Le but serait donc de l'implémenter
-dans un premier temps pour MMIX puis il faudrait addapter celui ci pour suivre la spécification de x86.
+dans un premier temps pour MMIX puis il faudrait adapter celui- ci pour suivre la spécification de x86.
 
 
 
