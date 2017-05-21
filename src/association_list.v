@@ -852,8 +852,9 @@ Definition lookdown_encdec : bool :=
 (*=lookup_encdec *)
 Definition lookup_encdec : bool :=
   forall_bounded 226 (fun n =>                     
-                      forall_tag (fun t => imply (eq_mnat (lookup t encdec) (Some n))
-                                                 (eq_mtag (lookdown n encdec) (Some t)))).
+             forall_tag (fun t =>
+                imply (eq_mnat (lookup t encdec) (Some n))
+                      (eq_mtag (lookdown n encdec) (Some t)))).
 (*=End *)
 
 Lemma lookdown_encdec_true : lookdown_encdec = true.
@@ -910,7 +911,8 @@ apply implyP.
 Qed.
 
 (*=lookdown_lookup *)
-Theorem lookdown_lookup : forall (n : nat) (t : tag), lookdown n encdec = Some t -> lookup t encdec = Some n.
+Theorem lookdown_lookup : forall (n : nat) (t : tag),
+    lookdown n encdec = Some t -> lookup t encdec = Some n.
 (*=End *)
 Proof.
   (* i admit this only because computing is too long *)
@@ -1003,7 +1005,8 @@ apply implyP.
 Qed.
 
 (*=lookup_lookdown *)
-Theorem lookup_lookdown : forall (n : nat) (t : tag) , lookup t encdec = Some n -> lookdown n encdec = Some t.
+Theorem lookup_lookdown : forall (n : nat) (t : tag) ,
+    lookup t encdec = Some n -> lookdown n encdec = Some t.
 (*=End *)
 (*=lookup_lookdown_script *)
 Proof.
