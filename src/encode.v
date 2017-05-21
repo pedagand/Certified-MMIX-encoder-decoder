@@ -375,11 +375,12 @@ Definition decode (bi : binary_instruction) : option instruction :=
   match get_first_n_bit bi 8 with
   | (li,next) => let! t := lookdown (bit_n li) encdec in                 
                  match t with
-                          | tag_u u => match get_first_n_bit next 24 with
-                                       | (op,[]) =>
-                                         ret (instr_u (mk_instr_uno u (imm (bit_n op))))
-                                       | _ => None
-                                       end                                                         
+                 | tag_u u =>
+                   match get_first_n_bit next 24 with
+                   | (op,[]) =>
+                     ret (instr_u (mk_instr_uno u (imm (bit_n op))))
+                   | _ => None
+                   end                                                         
 (*=End *)
                           | tag_t_n tn =>
                             match get_first_n_bit next 8 with
