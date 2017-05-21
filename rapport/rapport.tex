@@ -279,22 +279,27 @@ de cette égalité dans le monde propositionnel.
 
 
 %%----------------------------------------Section Conversion N liste B -----------------------------
-\section{Conversion N liste B}
+\section{Conversion entiers vers bits}
 \label{Section Conversion N liste B}
-\todo{faire une petite intro la dessus}
+
+Cette section s'attarde sur la représentation que nous donnerons à nos instructions
+sous forme binaire. Il sera aussi également question de conversion des entiers vers cette
+représentation étant donné que les immédiats ainsi que les registres sont stockés sous forme d'entier
+pour les instructions.
+
 
 
 %------------repres bits ----------------
 \subsection{Représentation des bits}
-\todo{Enfaite il faut parler de suite de bits (enfin c'est pas le bon mot) mais pas de bits tout court}
 
-Dans la section \ref{representation des donnees} nous avons parlé de la représentation des instructions
-sous forme \todo{trouver le mot}. Maintenant il nous faut choisir un type de donnée pour représenter
+
+Il nous faut determiner un type de données pour représenter
 les instructions sous forme binaires.
 Notre type de donnée doit pouvoir nous permettre de :
 \begin{enumerate}
-\item Pouvoir recevoir une chaine de bits de taille n quelconque et multiple de 32 de tel sorte que
-  lors d'un parsing d'un fichier binaire il n'y ai pas de traitement supplémentaire à faire.
+\item Ne pas avoir de restriction au niveau de la taille car lors du parsing d'un fichier binaire
+  on souhaite générer un flux de bits puis le découper au fur et à mesure du décodage.
+\item Pouvoir encoder un entier sur un nombre de bits quelconque.
 \item Il doit être simple car il est préférable que les preuves qui sont le coeur de ce projet restent
   plus aisées à mettre en place.
 \end{enumerate}
@@ -302,11 +307,10 @@ Notre type de donnée doit pouvoir nous permettre de :
 Il existe dans la librairie standard de Coq une représentation binaire pour les entiers naturels.
 Le problème de celle ci est que l'on ne peut pas représenter un entier naturel sur un nombre de bits différents
 que celui nécéssaire à son encodage. Nous ne pouvons pas nous permettre d'avoir une taille variable en
-fonction de la valeur encodée et cela contredirait le premier pré-requis que nous souhaitons.
+fonction de la valeur encodée et cela contredirait le second pré-requis.
 
-La structure de donnée par excellence qui satisfait l'ensemble de nos prérequis est la liste.
-En effet elle permet de répondre à ces deux besoins, nous utiliserons donc des listes de booléens.
-\todo{je vais quand même pas dire que false c'est 0 et true c'est 1 non? :p}
+La structure de donnée par excellence qui satisfait l'ensemble de nos prérequis est la liste de booléens.
+Un booléens représentant un bit et la liste le flux.
 
 \codefrom{src}{ast_instructions}{binary_instruction}
 
@@ -322,7 +326,7 @@ une fonction de conversion d'une liste de booléens vers un entier naturel:
 \codefrom{src}{binary}{bitn}
 
 Commençons par prêtter attention à cette fonction car elle est une simple implémentation
-d'une formule bien connue pour determiner la valeur d'un nombre sous forme binaire
+d'une formule permettant de determiner la valeur d'un nombre sous forme binaire
 en forme décimal. Passons maintenant à la fonction effectuant l'opération inverse:
 
 \codefrom{src}{binary}{nbit}
@@ -341,21 +345,21 @@ En réalité nous souhaiterions pouvoir écrire notre fonction comme ceci
 Cependant cette implémentation est impossible avec Coq car celui ci utilise
 des opérateurs de points fixes \todo{lol j'ai pas tout compris à ce truc je suis
   pas sur de ce que je met} et dans ce dernier exemple l'appel récursif ne s'éffectue
-pas avec le prédécesseur de ``k'' \todo{again comment citer une var} mais avec le
-résultat de ``k'' par deux. \todo{finir ça et trouver la vraie justification tranquillement}
-\todo{Placer les ensembles finis (enfin c'est pas le mot exacte)}
+pas avec le prédécesseur de \fun{k}  mais avec le
+résultat de \fun{k} par deux. Lors des preuves si l'on fait des recursions sans faire appel
+au prédécesseur nous ne pourrons pas faire de raisonement par induction. Coq n'accepte les
+récursions que sur les ensembles finis \todo{c'est pas ce mot la exacte je crois vérifier dans le cours d'aps}
 
 
 \remark{Dans notre cas cette fonction nous convient parfaitement car nous souhaitons
   obtenir une liste de booléens de taille determinée. Cependant cela nous permet d'illustrer
   la façon dont Coq définie la récursion}
 
-\todo{enfaite ça va être la seconde (changer puis supprimer)}
 On pourra aussi noter le type de retour de la fonction.
 On utilise une monade bien connue des programmeurs fonctionnels au travers du type
-``option'' \todo{faut que je retrouve comment faire les quotes}. Cela nous permet de
+\fun{option}. Cela nous permet de
 dire que la fonction peut échouer sans pour autant devoir renvoyer une valeur par
-défaut où lever une exception. Ici le cas ou la fonction peut échouer est lorsque
+défaut où lever une exception (en d'autre terme que la fonction est partielle). Ici le cas ou la fonction peut échouer est lorsque
 l'entier naturel que l'on souhaite encoder nécéssite plus de bits que l'entier n alors
 on ne peut pas réaliser la transformation.
 
@@ -371,21 +375,22 @@ les deux fonctions que nous venons de définir dans la section \ref{Fonctions de
 
 Une propriété qui s'avèrera surement utile par la suite est le Lemme suivant:
 
-En effet cela nous permettra de vérifier qu'une instruction produite par les fonctions
-des sections suivantes \todo{mettre la ref} produisent bien des instructions de taille 32.
-
 \codefrom{src}{binary}{size_n_bit}
+
+Ce lemme permet de vérifier que la taille d'une instruction produite par
+la fonction \fun{n_bit} est bien de la taille de l'argument n.
+
 
 Une des information importante à retenir de ce théorème est sa structure.
 En effet comme nous avons vus précédement \ref{Fonctions de conversion} la
-fonction n\_bit peut échouer, il nous faut donc vérifier cette propriété
+fonction \fun{n_bit} peut échouer, il nous faut donc vérifier cette propriété
 uniquement lorsque celle ci termine correctement. C'est pour cette raison
 que nous devons utiliser l'implication pour ne considérer que ces cas précis. \\
 
 Il est maintenant question de définir les deux théorèmes les plus important de
 cette section. Notre but pour l'ensemble des fonctions que l'on définis est de
 montrer qu'elles sont \todo{trouver le mot ici (c'est pas symétriques mais un truc dans le genre)}
-car elles seront utilisé dans l'encodage et decodage des instructions \todo{mettre la ref}
+car elles seront utilisé dans l'encodage et decodage des instructions \ref{Encode Decode}
 Voici donc le premier théorème que nous voulons prouver:
 
 \codefrom{src}{binary}{nbitn}
@@ -393,13 +398,11 @@ Voici donc le premier théorème que nous voulons prouver:
 Comme pour le lemme précédent ce théorème suit la même structure d'implication en raison des effets
 de bords induit par la monade option.
 Pour le théorème suivant nous avons besoin d'émettre une hypothèse supplémentaire sur l'argument
-``n'' \todo{encore les vars}. Si nous n'effectuons pas cette assertion supplémentaire le
+\fun{n}. Si nous n'effectuons pas cette assertion supplémentaire le
 théorème n'a pas de sens et n'est pas conséquent pas prouvable.
 
 \codefrom{src}{binary}{bitnbit}
 
-\todo{la phrase suivante est nul mais pourquoi pas mettre une petite phrase de conclusion de la partie}
-Nous avons en notre possession l'ensemble des théorèmes nécéssaires pour la suite de nos preuves
 
 
 
@@ -547,6 +550,7 @@ de comprendre reflect dans les moindres détails mais simplement de comprendre s
 
 %%------------------------Encode Decode----------------------
 \section{Encode Decode}
+\label{Encode Decode}
 
 \todo{une petite phrase qui dit que le type des tag lors du decode nous permet de savoir ce que l'on doit faire exactement}
 \todo{introduction peut etre parler à l'avance du problème d'avoir utiliser un truc bien exhaustif}
