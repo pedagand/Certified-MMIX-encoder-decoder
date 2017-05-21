@@ -586,9 +586,11 @@ Fixpoint traverse {A} (l : list (option A)) : option (list A) :=
 (*=End *)
 (* encode_flux definitions *)
 (*=encode_flux *)
-Definition encode_flux_opt (li : list instruction) : list (option binary_instruction) :=
+Definition encode_flux_opt
+   (li : list instruction) : list (option binary_instruction) :=
   map encode li.
-Definition encode_flux (li : list instruction) : option (list binary_instruction) :=
+Definition encode_flux
+   (li : list instruction) : option (list binary_instruction) :=
   traverse (encode_flux_opt li).
 
 Definition encode_flux_b (li : list instruction) : option (list bool) :=
