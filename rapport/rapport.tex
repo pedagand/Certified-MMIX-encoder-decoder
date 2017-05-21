@@ -152,6 +152,21 @@ nous allons tout d'abord réaliser un assembleur préliminaire basé sur le lang
 
 
 
+%%-----Contributions-------
+\subsection{Contributions}
+Voici une liste des réalisations apportées pour mener à bien ce projet:
+\begin{enumerate}
+\item Ecole d'hiver de Coq à sophia Antipolis de Yves Bertot.
+\item Réalisation de la conversion d'entier vers une représentation binaire \ref{Section Conversion N liste B}.
+\item Première représentation des données pour MMIX (seulement 2 instructions).
+\item Travail sur la réflexion afin d'implémenter les théorèmes sur la liste d'association \ref{Lemmeslol}.
+\item Première version des fonctions \fun{encode} et \fun{decode} \ref{Encode Decode}
+\item Ajout de l'ensemble des instructions de MMIX dans le programme.
+\item Tentative de remaniment de la représentation des données afin de factoriser les preuves \ref{LemmesEncode}.
+\item Lectures sur le sujet des librairies de parser pour l'appliquer à MMIX.
+\end{enumerate}
+
+
 
 %%--------------------------------------MMIX et représentation des données-----------------
 \section{MMIX et représentation des données}
@@ -279,7 +294,7 @@ de cette égalité dans le monde propositionnel.
 
 
 %%----------------------------------------Section Conversion N liste B -----------------------------
-\section{Conversion entiers vers bits}
+\section{Conversion N - bits}
 \label{Section Conversion N liste B}
 
 Cette section s'attarde sur la représentation que nous donnerons à nos instructions
@@ -408,7 +423,7 @@ théorème n'a pas de sens et n'est pas conséquent pas prouvable.
 
 
 %%---------------------------Conversion Opcode list B---------------------------
-\section{Conversion Etiquette vers N}
+\section{Conversion Etiquette - N}
 \label{partieOpcode}
 
 Une instruction possède une étiquette ainsi que des opérandes (\ref{partieMMIX}).
@@ -416,7 +431,7 @@ Pour réussir à encoder ou décoder une instruction il nous faut donc dabord
 réussir à convertire une étiquette en un entier N \todo{symbol}.
 Pourquoi cette conversion s'effectue vers l'ensemble des entiers naturels
 et non vers les listes de B \todo{symbol}, tout simplement pour éviter
-de les hardcoder \todo{change}. Nous utiliserons les fonctions définies dans
+de les rédiger statiquement. Nous utiliserons les fonctions définies dans
 la section précédente \ref{Section Conversion N liste B} lorsque nous souhaiterons transformer nos entiers naturels.
 
 %%---------Structure de donnée----------------
@@ -428,14 +443,13 @@ utilisé un type de donnée permettant de realiser l'association de ces deux él
 ce qui nous conduit à utiliser le produit cartésien suivant: \todo{je sais pas exactement si je peux dire ça}
 \codefrom{src}{association_list}{assoc}
 
-Nous avons maintenant une représentation pour les associations il nous faut
-maintenant stocker l'ensemble de celles ci. Etant donné que le nombre
+Etant donné que le nombre
 d'instructions est de 256, l'utilisation des listes est envisageable.
 Un argument supplémentaire est que la liste
 est un type inductif qui nous permettra de raisonner plus aisement
 lors des preuves étant donné sa relative simplicité. En effet on pourrait utiliser
 un dictionnaire pour réduire la complexité, cependant l'utilisation de ce 
-type de donnée rendrais les preuves plus complexes \todo{pas sur au final :p}.
+type de donnée rendrais les preuves plus compliquées.
 Nous obtenons donc le type suivant pour représenté notre collection d'associations:
 
 \codefrom{src}{association_list}{tag_opcode_assoc}
@@ -448,7 +462,7 @@ Nous obtenons donc le type suivant pour représenté notre collection d'associat
 \remark{J'ai fait le choix de ne pas me reposer sur la liste d'association pour stocker des informations sur le decodage
   des instructions. En effet lors du décodage avec une telle liste d'association nous n'aurons pas d'information
   sur la syntaxe de celle ci (type des operandes et nombre d'arguments). Cependant cette information sera obtenue ici
-  grâce au type de l'étiquette qui nous indique la syntaxe. Ce choix sera critiqué dans la section \todo{mettre ref partie encode}}
+  grâce au type de l'étiquette qui nous indique la syntaxe. Ce choix sera critiqué dans la section \ref{Encode Decode}}
 
 %%-----------lookup et lookdown------
 \subsection{Fonctions de recherche}
@@ -475,19 +489,19 @@ Voici la fonction effectuant la recherche dans le sens inverse en suivant le mê
 \label{Lemmeslol}
 
 Avant de commencer toute preuve il nous faut définir de manière statique une liste
-contenant l'ensemble des associations entre les ``tag'' \todo{encore typo} et leur entier naturel associé.
+contenant l'ensemble des associations entre les \fun{tag} et leur entier naturel associé.
 
 
 \codefrom{src}{association_list}{encdec}
-.....\\ \todo{faire un peut plus jolie avec les 3 petits points}
+.....\\ \\
 
-Tous les théorèmes que nous définirons se baserons sur la liste ``encdec''\todo{typo}. \\
+Tous les théorèmes que nous définirons se baserons sur la liste \fun{encdec}. \\
 Nous avons besoin de vérifier que la liste contient bien l'ensemble des associations,
 il existe deux manière de faire. Une première façon qui consiste à faire une analyse de cas
-au sein de la preuve sur le type tag.
+au sein de la preuve sur le type \fun{tag}.
 Une autre méthode consiste à vérifier de façon calculatoire cette propriété, puis de montrer
 une équivalence entre ce calcul et sa proposition associée. 
-Cette opération en Coq peut être réaliser avec l'aide du type ``reflect'':
+Cette opération en Coq peut être réaliser avec l'aide du type \fun{reflect}:
 
 \codefrom{rapport}{definitions}{reflect}
 
@@ -647,7 +661,7 @@ d'instruction il nous faut crée.
 
 %%----Lemmes----------
 \subsection{Lemmes}
-
+\label{LemmesEncode}
 De même que pour la définition d'encode \todo{mettre la ref} nous allons diviser le travail pour chaque
 type d'instructions.
 
@@ -724,10 +738,21 @@ Nous pouvons maintenant définir les théorèmes finaux de notre assembleur qui 
 
 \section{Conclusion}
 
+Nous avons désormais un assembleur fonctionnel pour MMIX cependant celui ci ne permet pas encore de se lancer
+dans la réalisation de l'assembleur certifié x86.\\
+La première raison qui me pousse à d'abord améliorer le parseur de MMIX est la représentation des données.
+En effet la représentation présentée dans ce rapport est exhaustive car cela est encore possible avec
+MMIX. D'une part l'architecture RISK limite le nombre de format d'instructions. En x86 une instruction possède
+beaucoup plus de champs et la taille de celle ci diffère selon les instructions. J'ai commencé à explorer certaines
+pistes afin de factoriser MMIX que je ne présente pas dans ce rapport étant donné que celles ci n'ont pas encore abouties.
+\\
+Une façon de résoudre ce problème de façon élégante et efficace serait de crée une librairie de parser.
+En effet un assembleur s'attardant uniquement sur la syntaxe est un cas particulier de parser.
+Grâce aux combinateurs de parseurs nous pourrions crée dynamiquement de nouveaux parser pour
+permettre de parser l'ensemble des instructions avec un code factoriser. Le but serait donc de l'implémenter
+dans un premier temps pour MMIX puis il faudrait addapter celui ci pour suivre la spécification de x86.
+
 
 
 
 \end{document}
-               
-
-\todo{Parler du fait que c'est très exhaustif et que ça marche pour MMIX mais que ça va pas marcher pour le reste}
