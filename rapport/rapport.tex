@@ -496,7 +496,7 @@ Une autre méthode consiste à vérifier de façon calculatoire cette propriét�
 une équivalence entre ce calcul et sa proposition associée. 
 Cette opération en Coq peut être réaliser avec l'aide du type ``reflect'':
 
-\codefrom{src}{association_list}{reflect}
+\codefrom{rapport}{definitions}{reflect}
 
 Pour mieux comprendre en quoi ce type va nous être utile, il faut comprendre son utilisation.
 Le type ``reflect'' est composé de deux constructeurs, si l'on possède un élément de type
@@ -524,19 +524,35 @@ nous souhaitons pouvoir passer du monde calculatoire au monde propositionnel:
 \codefrom{src}{association_list}{helpBefore1}
 \codefrom{src}{association_list}{helpBefore2}
 
-lol
+Afin de définir des prédicats pour la fonction ``forall\_tag'' il nous faut définir un
+équivalent au connecteur propositionnel \todo{mettre le symbole implication} :
 
-\codefrom{src}{association_list}{forall_tagP}
+\codefrom{src}{association_list}{imply}
+
+L'obectif final de cette section est de démontrer les théorèmes suivant (dont la structure est analogue aux lemmes prouver
+en dans la section précédente \todo{mettre la ref}):
+
+\codefrom{src}{association_list}{lookup_lookdown}
+\codefrom{src}{association_list}{lookdown_lookup}
 
 
-\todo{parler des théorèmes help mais enfaite c'est un des help qui fait ce que je dis au dessus}
+Si nous souhaitons utiliser la reflection il nous faut définir des fonctions refletant
+ces théorèmes dans l'ensemble des booléens. La fonction pour le théorème ``lookup\_lookdown''
+est la suivante:
 
+\codefrom{src}{association_list}{lookup_encdec}
+``eq\_mtag'' et ``eq\_mtag'' sont simplement des fonctions d'égalité sur les types ``option tag'' et ``option nat''.
+L'intérêt d'avoir utiliser reflect pour réaliser nos preuves peut se voir immédiatement quand à la taille
+du script de preuve du théorème ``lookup\_lookdown'' que voici:
 
-\todo{motiver le imply proprement}
+\codefrom{src}{association_list}{lookup_lookdown}
 
-\codefrom{src}{association_list}{implyP}
+\codefrom{src}{association_list}{lookup_lookdown_script}
 
-\todo{finir cette partie à tranquille demain}
+Certains lemmes ont ici été passés volontairement sous silence car l'objectif n'est pas
+de comprendre reflect dans les moindres détails mais simplement de comprendre son itérêt.
+
+\todo{peut etre conclure}
 
 
 %%------------------------Encode Decode----------------------
