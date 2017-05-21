@@ -643,21 +643,21 @@ d'instruction il nous faut créer.
 %%----Lemmes----------
 \subsection{Lemmes}
 \label{LemmesEncode}
-De même que pour la définition d'encode \todo{mettre la ref} nous allons diviser le travail pour chaque
+De même que pour la définition d'encode nous allons diviser le travail pour chaque
 type d'instructions.
 
 \codefrom{src}{encodeProof}{encode_decode_t_n}
 
 Le problème de la représentation actuelle des données fait que nous sommes obligés de réaliser une preuve
 similaire mais non triviale pour chaque type d'instruction. Cela crée énormément de redondance dans les preuves
-et cela n'est jamais bon signe. Nous verrons dans la partie future work \todo{faire la ref} les solutions envisageables afin
+et cela n'est jamais bon signe. Nous verrons dans la conclusion \ref{conclusion} les solutions envisageables afin
 de surmonter ce problème.
 Cela nous permet finalement d'obtenir la preuve qu'une instruction encoder par notre assembleur puis decoder par celui
 ci est identique. On a donc une preuve que la syntaxe est belle et bien préservée.
 
 Définissons le théorème opposé à celui- ci à savoir :
 
-\codefrom{src}{encodeProof}{decode_encode}
+\codefrom{src}{decodeProof}{decode_encode}
 
 Tout comme pour la preuve d'encode ici nous devons effectuer la preuve pour chaque type d'instructions
 ce qui rend une nouvelle fois la preuve très verbeuse et redondante. 
@@ -668,10 +668,10 @@ ce qui rend une nouvelle fois la preuve très verbeuse et redondante.
 %%-------Theoremes finaux------
 \subsection{Theorèmes finaux}
 
-A l'heure actuelle nous avons une preuve que notre assembleur produit bien \todo{finir cette phrase}
+A l'heure actuelle nous avons une preuve que notre assembleur suit bien la specification
 pour une seule instruction. Cependant un assembleur complet travaille sur un ensemble d'instructions
 ou bien un flux de bits. Dans notre cas nous allons définir une fonction décodant une liste d'instructions et qui
-retournera une liste de booléens de taille ``32 * length(liste\_instructions)''\todo{typo}.
+retournera une liste de booléens de taille \fun{32 * length(liste\_instructions)}.
 Pour ce faire il nous faut une fonction préalable :
 
 \codefrom{src}{encode}{concat_listes_32}
@@ -679,7 +679,7 @@ Pour ce faire il nous faut une fonction préalable :
 A noter le test sur la taille de la liste
 qui nous permettra d'obtenir une hypothèse supplémentaire lors de nos preuves.
 Etant donné que la fonction encode utilise la monade option nous sommes obligés de définir une fonction
-traverse permettant de transformer une liste de type ``list (option A)'' en une liste de type ``list A''.
+traverse permettant de transformer une liste de type \fun{list (option A)} en une liste de type \fun{list A}.
 
 \codefrom{src}{encode}{traverse}
 
@@ -710,7 +710,6 @@ Nous pouvons maintenant définir les théorèmes finaux de notre assembleur qui 
 \remark{Prouver ces deux théorèmes nécessite un travail assez conséquent au niveau des fonctions
   de découpage. Cependant ces preuves restant dans la même veine que celles que nous avons déjà
   vues précédement leur explication ne semble pas justifiée}
-\todo{regarder quand meme y en as peut etre une bien}
 
 
 
@@ -718,6 +717,7 @@ Nous pouvons maintenant définir les théorèmes finaux de notre assembleur qui 
 
 
 \section{Conclusion}
+\label{conclusion}
 
 Nous avons désormais un assembleur fonctionnel pour MMIX cependant celui- ci ne permet pas encore de se lancer
 dans la réalisation de l'assembleur certifié x86.\\
@@ -727,8 +727,8 @@ MMIX. D'une part l'architecture RISK limite le nombre de formats d'instructions.
 beaucoup plus de champs et la taille de celle ci diffère selon les instructions. J'ai commencé à explorer certaines
 pistes afin de factoriser MMIX que je ne présente pas dans ce rapport étant donné que celles- ci n'ont pas encore abouties.
 \\
-Une façon de résoudre ce problème de façon élégante et efficace serait de crée une librairie de parser.\todo{parser ou Parser?}
-En effet un assembleur s'attardant uniquement sur la syntaxe est un cas particulier de parser.\todo{idem majuscule ou non?}
+Une façon de résoudre ce problème de façon élégante et efficace serait de crée une librairie de parser.
+En effet un assembleur s'attardant uniquement sur la syntaxe est un cas particulier de parser.
 Grâce aux combinateurs de parseurs nous pourrions crée dynamiquement de nouveaux parser pour
 permettre de parser l'ensemble des instructions avec un code factoriser. Le but serait donc de l'implémenter
 dans un premier temps pour MMIX puis il faudrait adapter celui- ci pour suivre la spécification de x86.
