@@ -3,7 +3,8 @@ Import ListNotations.
 Require Import Mmx.ast_instructions Mmx.binary Mmx.association_list Mmx.encode.
 
 (*=encode_decode_t_n *)
-Lemma encode_decode_t_n : forall (i : instruction_tern_n) (bi : binary_instruction),
+Lemma encode_decode_t_n : forall (i : instruction_tern_n)
+                                 (bi : binary_instruction),
     encode_t_n i = Some bi -> decode bi = Some (instr_t_n i).
 (*=End *)
 Proof.
