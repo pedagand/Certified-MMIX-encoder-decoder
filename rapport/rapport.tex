@@ -101,49 +101,45 @@
 
 \section{Introduction}
 
-\todo{parler du fait que le but pour les assembleurs que l'on va définir est d'avoir une preuve dans les deux sens
-  que l'encodage et le decodage préserve l'instruction (a bien rédiger haha)}
-
 Un assembleur est un programme permettant de traduire des instructions lisibles par un être humain vers
-une \todo{une de leur} leur représentation binaire associée afin d'être éxécutées par le processeur. Contrairement à un compilateur
+une de leur représentation binaire associée afin d'être éxécutées par le processeur. Contrairement à un compilateur
 qui effectue lui aussi un travail de traduction, l'assembleur se focalise uniquement sur l'analyse syntaxique
 et non sur l'aspect sémantique.
 Il existe de nombreux langages 
-assembleurs pour citer les plus connus \todo{mettre les plus connus}.
-Le programme KVM \todo{mettre une ref} qui fait partie du noyau linux depuis la version \todo{mettre la version}
+assembleurs pour citer les plus connus \fun{x86}, \fun{arm}.
+Le programme KVM \todo{mettre une ref}
 permet d'effectuer cette traduction \todo{chercher si c'est que pour x86}.
-Cependant certains problèmes on été relevés au niveau de la \todo{Chercher un mot}.
+Cependant certains problèmes on été relevés au niveau de la traduction.
 Même si ces problèmes on été résolus on ne peut à l'heure actuelle pas garantir que d'autre bugs ne seront pas
 découverts dans les années à venir.
 
-Prenons l'exemple d'un autre logiciel dont l'utilisation est très répandue : gcc. C'est le compilateur
-du langage C le plus utilisé à l'heure actuelle \todo{Pas sur haha} et pourtant il existe encore des
-problèmes avec celui- ci. C'est ce qu'a démontré Xavier Leroy en concevant un compilateur certifié pour le langage C ``Compcert''
-\todo{mettre un max de ref}. Après avoir développé celui- ci il à comparé les résultats de ``Compcert'' avec ``GCC''
+Prenons l'exemple d'un autre logiciel dont l'utilisation est très répandue : \fun{gcc}. C'est l'un des compilateurs
+du langage C le plus utilisé à l'heure actuelle et pourtant il existe encore des
+problèmes avec celui- ci. C'est ce qu'a démontré Xavier Leroy en concevant un compilateur certifié pour le langage C \fun{Compcert}
+\todo{ref}. Après avoir développé celui- ci il à comparé les résultats de \fun{Compcert} avec \fun{GCC}
 et il a relevé plus de \todo{mettre les chiffres et finir la phrase}.
 
 
-Mais comment garantir qu'un programme s'exécute correctement, en quoi consiste la réalisation d'un logiciel certifié.\todo{manque les points d'interrogation}
+Mais comment garantir qu'un programme s'exécute correctement? En quoi consiste la réalisation d'un logiciel certifié?
 Ces questions sont des questions centrales depuis le développement de l'informatique, et de nombreux travaux ont été
-réalisés sur ce sujet. Les méthodes pour atteindre cet objectif sont diverses \todo{parler des différentes méthodes qui éxistent et dire
-que l'on va choisir les assistants de preuve}.
+réalisés sur ce sujet. Les méthodes pour répondre à ces problèmatiques sont par exemple le model checking, les assistants
+de preuve ect...
 
 
 Les assistants de preuves permettent de créer des programmes sur lesquels on énonce des propriétés que l'on prouve par
-la suite avec celui- ci. 
-Par exemple le noyau de coq a été prouvé donc on est en droit de (après on ne sait jamais si une faille ne sera pas découverte
-mais cela réduit énormément la probabilité de recontrer un bug \todo{finir cette petite partie}
+la suite avec celui- ci. L'assistant de preuve permet d'assister comme son nom l'indique la rédaction de preuves mais
+aussi de vérifier automatiquement leur validitée.
 
 La difficulté lors de la réalisation d'un assembleur ne se situe pas en hauteur; en effet le nombre de
-fonctions nécéssaires n'est pas très conséquent \todo{bof reformuler}. Par contre la complexité en largeur
+fonctions nécéssaires n'est pas très conséquent. Par contre la complexité en largeur
 de ce type de programme est très grande. Cela est du au nombre d'instructions ainsi qu'à leur syntaxe qui selon
-la spécification du langage peut être particulière.
+la spécification du langage peut être particulièrement riche.
 Les assistants de preuves se prêtent très bien à ce genre de problème car l'on peut prouver des
 propriétés sur des ensembles (dans notre cas des instructions) et réaliser une seule preuve pour
-un ensemble donné.
+un ensemble donné. Pour ce projet l'assistant de preuve utilisé sera le langage \fun{Coq}.
 
 Une motivation supplémentaire est la continuation des travaux menés par \todo{mettre des noms}.
-Le compilateur ``Compcert'' génère du langage assembleur x86, mais il n'existe pas
+Le compilateur \fun{Compcert} génère du langage assembleur x86, mais il n'existe pas
 de programme permettant de garantir sa traduction en bits.
 C'est donc le but de ce projet qui est la réalisation d'un assembleur x86 certifié.
 
@@ -159,11 +155,11 @@ Voici une liste des réalisations apportées pour mener à bien ce projet:
 \item Ecole d'hiver de Coq à sophia Antipolis de Yves Bertot.
 \item Réalisation de la conversion d'entiers vers une représentation binaire \ref{Section Conversion N liste B}.
 \item Première représentation des données pour MMIX (seulement 2 instructions).
-\item Travail sur la réflexion afin d'implémenter les théorèmes sur la liste d'association\todo{je mettrais associatins au pluriel à voir} \ref{Lemmeslol}.
+\item Travail sur la réflexion afin d'implémenter les théorèmes sur la liste d'associations \ref{Lemmeslol}.
 \item Première version des fonctions \fun{encode} et \fun{decode} \ref{Encode Decode}
 \item Ajout de l'ensemble des instructions de MMIX dans le programme.
 \item Tentative de remaniement de la représentation des données afin de factoriser les preuves \ref{LemmesEncode}.
-\item Lectures sur le sujet des librairies de parser\todo{pas de sens qui est Parser?} pour l'appliquer à MMIX.
+\item Lectures sur le sujet des librairies de parser pour l'appliquer à MMIX.
 \end{enumerate}
 
 
@@ -172,7 +168,6 @@ Voici une liste des réalisations apportées pour mener à bien ce projet:
 \section{MMIX et représentation des données}
 \label{partieMMIX}
 
-\todo{finir cette introduction}
 Le langage d'assembleur MMIX à été crée par Donald Knuth en 1999.
 A l'heure actuelle il n'existe aucun processeur utilisant ce jeu d'instructions, il
 à été crée et utilisé dans un but pédagogique.
@@ -197,22 +192,21 @@ est fixe. Une instruction a une taille de 32 bits, voici une première représen
 \end{tabular}
 \remark{La dernière ligne du tableau permet simplement d'associer à chaque partie
   de l'instruction un nom de variable afin d'alléger le texte dans la suite du rapport}\\
-Les operandes\todo{c'est quoi les opérandes?} peuvent être à la fois un immediat ou un registre.
-Une des spécificité de MMIX est la possibilité d'obtenir des operandes\todo{opérandes?}
-de plus grande taille en utilisant un nombre réduit de celles ci:\\\todo{je mettrais en en utilisant un nombre réduit}
-
+Les operandes peuvent être à la fois un immediat ou un registre.
+Une des spécificité de MMIX est la possibilité d'obtenir des operandes
+de plus grande taille en en utilisant un nombre réduit:\\
+\\
 \begin{tabular}{|c|c|c|}
   \hline 
   TAG & X & YZ \\
   \hline
-\end{tabular}
+\end{tabular}\\
 \begin{tabular}{|c|c|}
   \hline 
   TAG & XYZ \\
   \hline
 \end{tabular}
 
-\todo{ce tableau ...}
 
 
 
@@ -223,14 +217,15 @@ de plus grande taille en utilisant un nombre réduit de celles ci:\\\todo{je met
 Dans un premier temps j'ai fait le choix d'utiliser une représentation des données très exhaustive sans
 chercher à la factoriser. Ce choix est du à mon apprentissage de Coq, il était préférable de ne pas
 rajouter une difficulté supplémentaire lors de la réalisation des preuves.
-Un autre choix à été de stocker l'information sur la syntaxe de l'instruction dès les étiquettes.\todo{pas très français}
-Cela permettra de ne pas mettre cette information dans la liste d'association\todo{associations au pluriel}, nous y reviendrons dans la
+Un autre choix à été de stocker l'information sur la syntaxe de l'instruction grâce au type des étiquettes.
+Cela permettra de ne pas mettre cette information dans la liste d'associations, nous y reviendrons dans la
 section \ref{partieOpcode}.
 
 \codefrom{src}{ast_instructions}{tag}
 
 Chaque type d'étiquette sera associé à une syntaxe d'instructions par exemple le type ``tag\_ter\_normal''
-regroupe les tags ne pouvant être utilisés que pour les instructions dont les opérandes sont trois registres.\todo{on dirait qu'il manque un mot}
+regroupe les tags ne pouvant être utilisés que pour les instructions dont les trois
+opérandes sont toutes des registres.
 
 \codefrom{src}{ast_instructions}{tag_definition}
 ...
@@ -245,7 +240,7 @@ Voici un exemple pour les instructions dont les 3 opérandes représentent des r
 
 \codefrom{src}{ast_instructions}{instruction_tern_n}
 
-L'utilisation du type enregisrement\todo{je mettrais ``enregistrement''} convient parfaitement pour représenter\todo{pour représenter quoi?} car il permet de stocker
+L'utilisation du type enregistrement convient parfaitement pour représenter les instructions car il permet de stocker
 l'ensemble des informations de celles- ci.
 
 Nous obtenons donc le type suivant pour les instructions:
@@ -280,7 +275,7 @@ automatiquement, la voici:
 %%-------------Lemmes---------------
 \subsection{Lemmes}
 \label{LemmesAST}
-Voici un premier lemme \todo{c'est quoi un lemme?}qui nous sera très utile par la suite:
+Définisons notre premier lemme:
 \codefrom{src}{ast_instructions}{tag_beq_different}
 Ici on désire montrer que si l'on prossède une preuve que deux étiquettes sont équivalentes
 à l'aide de notre fonction booléene alors on peut déduire une preuve
@@ -752,7 +747,7 @@ Grâce aux combinateurs de parseurs nous pourrions crée dynamiquement de nouvea
 permettre de parser l'ensemble des instructions avec un code factoriser. Le but serait donc de l'implémenter
 dans un premier temps pour MMIX puis il faudrait adapter celui- ci pour suivre la spécification de x86.
 
-
-
+%% \bibliographystyle{abbrvnat}
+%% \bibliography{rapport.bib}  
 
 \end{document}
