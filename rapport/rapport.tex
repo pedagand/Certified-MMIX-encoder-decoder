@@ -225,7 +225,7 @@ section \ref{partieOpcode}.
 
 \codefrom{src}{ast_instructions}{tag}
 
-Chaque type d'étiquette sera associé à une syntaxe d'instructions par exemple le type ``tag\_ter\_normal''
+Chaque type d'étiquette sera associé à une syntaxe d'instructions par exemple le type \fun{tag\_ter\_normal}
 regroupe les tags ne pouvant être utilisés que pour les instructions dont les trois
 opérandes sont toutes des registres.
 
@@ -501,22 +501,22 @@ Cette opération en Coq peut être réalisée avec l'aide du type \fun{reflect}:
 \codefrom{rapport}{definitions}{reflect}
 
 Pour mieux comprendre en quoi ce type va nous être utile, il faut comprendre son utilisation.
-Le type ``reflect'' est composé de deux constructeurs, si l'on possède un élément de type
-``reflect P true'' alors cela signifie que notre élément est le constructeur ``ReflectT''
-et celui- ci possède une preuve du prédicat ``P''. Le raisonnement est le même pour ``reflect P false''
-sauf que dans ce cas on pourra obtenir une preuve de non ``P''. Pour vulgariser ce
-principe on peut dire qu' avoir une preuve de ``reflect P b'' implique que la preuve
-de P est équivalente à ``b = true''. Ce principe est illustré par le théorème suivant:
+Le type \fun{reflect} est composé de deux constructeurs, si l'on possède un élément de type
+\fun{reflect P true} alors cela signifie que notre élément est le constructeur \fun{ReflectT}
+et celui- ci possède une preuve du prédicat \fun{P}. Le raisonnement est le même pour \fun{reflect P false}
+sauf que dans ce cas on pourra obtenir une preuve de non \fun{P}. Pour vulgariser ce
+principe on peut dire qu' avoir une preuve de \fun{reflect P b} implique que la preuve
+de P est équivalente à \fun{b = true}. Ce principe est illustré par le théorème suivant:
 
 \codefrom{rapport}{definitions}{reflect_iff}
 
 
-Mettons de côté le type ``reflect'' et définissons maintenant une fonction
+Mettons de côté le type \fun{reflect} et définissons maintenant une fonction
 pour vérifier calculatoirement un prédicat sur l'ensemble des tags:
 
 \codefrom{src}{association_list}{forall_tag}
 
-L'ensemble des fonctions ``forall\_tag\_...'' suivent le même schéma que la fonction suivante:
+L'ensemble des fonctions \fun{forall\_tag\_...} suivent le même schéma que la fonction suivante:
 
 \codefrom{src}{association_list}{forall_tag_uno}
 
@@ -539,13 +539,13 @@ en dans la section précédente \ref{lemmes bits}):
 
 
 Si nous souhaitons utiliser la réflection il nous faut définir des fonctions reflétant
-ces théorèmes dans l'ensemble des booléens. La fonction pour le théorème ``lookup\_lookdown''
+ces théorèmes dans l'ensemble des booléens. La fonction pour le théorème \fun{lookup\_lookdown}
 est la suivante:
 
 \codefrom{src}{association_list}{lookup_encdec}
-``eq\_mtag'' et ``eq\_mtag'' sont simplement des fonctions d'égalité sur les types ``option tag'' et ``option nat''.
+\fun{eq\_mtag} et \fun{eq\_mtag} sont simplement des fonctions d'égalité sur les types \fun{option tag} et \fun{option nat}.
 L'intérêt d'avoir utilisé reflect pour réaliser nos preuves peut se voir immédiatement quant à la taille
-du script de preuves du théorème ``lookup\_lookdown'' que voici:
+du script de preuves du théorème \fun{lookup\_lookdown} que voici:
 
 \codefrom{src}{association_list}{lookup_lookdown}
 
