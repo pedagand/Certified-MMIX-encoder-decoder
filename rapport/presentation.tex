@@ -4,6 +4,7 @@
 \usepackage[francais]{babel}
 \usepackage{amsthm, amssymb, amsmath}
 \usepackage{mathpartir}
+\usepackage{graphicx}
 \usepackage{amsmath}
 \usepackage{color}
 \setlength{\fboxsep}{0pt}
@@ -49,7 +50,10 @@
 \newcommand{\codefrom}[3]
            {\lstinputlisting[linerange={#3}-End]{../#1/#2.v}}
            \newcommand{\fun}[1]{\lstinline!#1!}
+\newcommand{\codefromOcaml}[3]
+           {\lstinputlisting[linerange={#3}-End]{../#1/#2.ml}}
 
+           
 \newcommand{\intg}{\ensuremath{\mathsf{int}}}
 \newcommand{\bool}{\ensuremath{\mathsf{bool}}}
 \newcommand{\Lam}[2]{\ensuremath{\lambda #1\: #2}}
@@ -109,7 +113,7 @@
     \end{itemize}
   \end{block}
 
-  \begin{block}{Pourquoi certifié un assembleur}
+  \begin{block}{Pourquoi certifier un assembleur}
     \begin{itemize}
     \item Bugs KVM (décodage des instructions)
     \item Fin de la chaîne de compilation 
@@ -124,17 +128,17 @@
 
 \vfill
 
-\begin{block}{Qu'es ce qu'un programme certifié}
+\begin{block}{Qu'est-ce qu'un programme certifié?}
   \begin{itemize}
   \item Une spécification formelle
-  \item Des preuves garantissants que le programme est conforme à la spécification
+  \item Des preuves garantissant que le programme est conforme à la spécification
   \end{itemize}
 \end{block}
 \begin{block}{Comment faire avec le langage Coq}
   \begin{itemize}
   \item Coq est un assistant de preuve
   \item Programme écrit avec Coq 
-  \item Preuves égalements vérifiés par Coq.
+  \item Preuves également vérifiées par Coq.
   \item Programme vérifié = programme prouvé      
   \end{itemize}
 \end{block}
@@ -146,17 +150,17 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-\frametitle{Certifié un Assembleur}
+\frametitle{Certifier un Assembleur}
 
 %%L'assembleur est un traducteur entre un langage cible et un langage source Pour mmix on peut voir le fait de faire un assembleur
 %%comme définir une relation isomorphique entre les deux ensembles alors que pour x86 c'est pas vrais
-
+\includegraphics[scale=0.8]{modif.png}
 
 %je met pas les mêmes parceque elles ne possèdent pas le même ensemble de définition
 \begin{block}{Fonctions Inverses}
 \begin{itemize}
-    \item Encodage(Decodage(x)) = x
-    \item Decodage(Encodage(y)) = y 
+\item Decodage(Encodage(y)) = y
+\item Encodage(Decodage(x)) = x  \hspace{2cm} $\forall x \in Def(Decodage)$
 \end{itemize}  
 \end{block}
 
@@ -168,7 +172,7 @@
 
 \begin{block}{x86}
   \begin{itemize}
-    \item Taille des instructions variables
+    \item Taille des instructions variable
     \item Une même instruction possède différents encodages
     \item De nombreux champs dans une instruction (tag, ect..)
     \end{itemize}  
@@ -176,7 +180,7 @@
 
 \begin{block}{MMIX}
   \begin{itemize}
-  \item Jeu d'instruction RISC (taille des instructions fixée)
+  \item Jeu d'instructions RISC (taille des instructions fixée)
   \item Format des instructions très simple
   \end{itemize}  
 \end{block}
@@ -185,15 +189,24 @@
 
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
+\begin{frame}
 \frametitle{Partialité} 
 
 \begin{block}{Monade option}
   \begin{itemize}
-  \item Mécanisme pour gérer les fonctions partiels dans les langages fonctionels
-  \item Mettre la définition du type option     
+  \item Mécanisme pour gérer les fonctions partielles dans les langages fonctionnels
+    %C'est un type paramétrique 
+  \item \fontsize{8}{10} \codefrom{rapport}{definitions}{option}
   \end{itemize}  
 \end{block}
+\begin{block}{Exemple fonction de décodage}
+  \fontsize{8}{10} \codefrom{src}{encode}{decode}
+\end{block}
+
+\begin{block}{Impact sur les théorèmes}
+  \fontsize{8}{10} \codefrom{src}{decodeProof}{decode_encode}
+\end{block}
+  
 
 
 
@@ -202,16 +215,16 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
+\begin{frame}
 \frametitle{Récursion} 
 
-\begin{block}
-  Mettre le code ocaml de la fonction de décodage des bits
+\begin{block}{Exemple Ocaml}
+  \fontsize{8}{10} \codefromOcaml{rapport}{example}{nbit}
 \end{block}
 
 
-\begin{block}
-  Mettre le code coq de la fonction de décodage des bits
+\begin{block}{Exemple Coq}
+  \fontsize{8}{10} \codefrom{src}{binary}{nbit}
 \end{block}
 
 
@@ -219,171 +232,47 @@
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
+\begin{frame}
 \frametitle{Réflexion} 
 
-\begin{block}
-Mettre juste la spec de ce que l'on veut prouver dans le monde propositionel
-\end{block}
-
-
-\begin{block}
-  Résumé des bénéfices (terme de preuve plus petit) (plus besoin de faire une étude de cas pour chaque nouvelles preuves)
-\end{block}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
-\frametitle{Conversion $\mathbb{N}$ vers liste $\mathbb{B}$} 
-
-\begin{block}{Pourquoi une telle conversion}
-  \begin{itemize}
-  \item Un $\mathbb{B}$ représente un bit
-  \item Une instruction binaire sera donc une liste de booléens
-  \item Permet l'utilisation de la récursion ainsi que 
-  \end{itemize}   
-\end{block}
-
-\begin{block}{Objectifs de la section}
-  \begin{itemize}
-  \item Définir deux fonctions de conversion
-  \item Prouver que celles ci sont des fonctions inverses
-  \end{itemize}   
-\end{block}
-
-\begin{block}{Les difficultés}
-  \begin{itemize}
-  \item Spécificité de la récursion avec Coq
-  \item Fonctions partielles
-  \end{itemize}   
-\end{block}
-
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
-\frametitle{Conversion $\mathbb{N}$ vers liste $\mathbb{B}$} 
-
-
-\begin{block}{n\_bit}
-  \fontsize{8}{10}
-  \codefrom{src}{binary}{nbit}
-\end{block}
-
-
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-\frametitle{Conversion $\mathbb{N}$ vers liste $\mathbb{B}$} 
-
 \begin{block}{Théorèmes}
-    \fontsize{8}{10}
-  \codefrom{src}{binary}{nbitn}
-  \codefrom{src}{binary}{bitnbit}
-\end{block}
-
-
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
-  \frametitle{Représentation des données}
-  \begin{block}{Les tags}
-    
-  \end{block}
-
-  
-
-
-
-
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
-  \frametitle{Associtation tag vers liste B}
-  \begin{block}{Objectifs de la section}
-    \begin{itemize}
-    \item Associer chaque tag à son code binaire de façon statique (liste d'association)
-    \item Définir deux fonctions de recherche dans la liste
-    \item Montrer qu'elle sont inverses
-    \end{itemize}   
-  \end{block}
-
-  \begin{block}{Réflexion}
-    Permet d'utiliser le calcul afin de prouver les propositions
-  \end{block}
-  
- 
-\begin{block}{Les difficultés}
   \begin{itemize}
-  \item Utilisation de la réflexion
-  \end{itemize}   
+  \item \fontsize{8}{10} \codefrom{src}{association_list}{lookup_lookdown}
+  \item \fontsize{8}{10} \codefrom{src}{association_list}{lookdown_lookup}
+  \end{itemize}    
 \end{block}
-  
-\end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[b,fragile]
-  \frametitle{Encodage et Decodage}
-  \begin{block}{Objectifs de la section}
-    \begin{itemize}
-    \item Définir les fonctions d'encodage et de décodage d'une instruction
-    \item Montrer qu'elles sont inverses
-    \end{itemize}   
-  \end{block}  
-  
-\begin{block}{Les difficultés}
+\begin{block}{Avantages}
   \begin{itemize}
-  \item Utilisation de l'ensemble des théorèmes précédents
-  \item ``Machinerie avec Coq''
-  \end{itemize}   
+  \item Terme de preuve plus petit
+  \item Plus d'études de cas pour chaque nouveau théorème
+  \end{itemize}    
 \end{block}
-  
+
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
-  \frametitle{Flux d'instructions}
-  \begin{block}{Objectifs de la section}
+  \frametitle{Conclusion}
+  
+  \begin{block}{Réalisations}
     \begin{itemize}
-    \item Définir les fonctions d'encodage et de décodage d'une instruction
-    \item Montrer qu'elles sont inverses
-    \end{itemize}   
+    \item Conversion \ensuremath{\mathbb{N}} vers liste \ensuremath{\mathbb{B}}
+    \item Fonctions d'encodage et de décodage
+    \item Encodage de flux d'instructions et décodage d'une suite de bits
+    \end{itemize}
   \end{block}  
   
-\begin{block}{Les difficultés}
-  \begin{itemize}
-  \item Découpage des instructions
-  \item Preuves arithmétiques
-  \end{itemize}   
-\end{block}
-  
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}
-  \frametitle{Comment passer à x86}
-  
-  \begin{block}{Pourquoi ce n'est pas possible}
-    Le problème majeur est la représentation des données actuelle.
-    Cela implique aussi une modification de la liste d'association.
-  \end{block}  
-  
-\begin{block}{Les pistes}
-  \begin{itemize}
-  \item Utiliser la technique des librairies de parseur fonctionels
-  \end{itemize}   
-\end{block}
+  \begin{block}{Vers un assembleur x86}
+    \begin{itemize}
+    \item Représentation des données
+      % Comme détaillé dans le rapport pour rendre plus aisé les preuves j'ai préférer utiliser une représentation des données la plus simple possible cependant cela induit des redondances dans certaines preuves. Etant donné le trop grand nombre de syntaxes différentes pour les instructions en x86 il 'est pas possible de faire la même chose
+    \item Rendre le programme actuel plus combinatoire (bibliothèque de parseurs fonctionnels)
+      %argument c'est parceque il y a trop de cas particuliers dans x86 comparé à MMIX
+    \end{itemize}
+  \end{block}
   
 \end{frame}
 
