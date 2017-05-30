@@ -89,7 +89,7 @@
 
 \institute[\textsc{Upmc}]{Université Pierre et Marie Curie}
 
-\date{31/05/2016}
+\date{31/05/2017}
 
 
 \begin{document}
@@ -131,15 +131,15 @@
 \begin{block}{Qu'est-ce qu'un programme certifié?}
   \begin{itemize}
   \item Une spécification formelle
-  \item Des preuves garantissant que le programme est conforme à la spécification
+  \item Une preuve que le programme respecte sa spécification
   \end{itemize}
 \end{block}
-\begin{block}{Comment faire avec le langage Coq}
+\begin{block}{Programmation certifiée dans Coq}
   \begin{itemize}
   \item Coq est un assistant de preuve
   \item Programme écrit avec Coq 
-  \item Preuves également vérifiées par Coq.
-  \item Programme vérifié = programme prouvé      
+  \item Preuves également vérifiées par Coq
+  \item Programme exécuté = programme prouvé      
   \end{itemize}
 \end{block}
 \vfill
@@ -174,7 +174,7 @@
   \begin{itemize}
     \item Taille des instructions variable
     \item Une même instruction possède différents encodages
-    \item De nombreux champs dans une instruction (tag, ect..)
+    \item De nombreux champs dans une instruction (tag, ect.)
     \end{itemize}  
 \end{block}
 
@@ -194,7 +194,7 @@
 
 \begin{block}{Monade option}
   \begin{itemize}
-  \item Mécanisme pour gérer les fonctions partielles dans les langages fonctionnels
+  \item Mécanisme pour gérer les fonctions partielles
     %C'est un type paramétrique 
   \item \fontsize{8}{10} \codefrom{rapport}{definitions}{option}
   \end{itemize}  
@@ -269,7 +269,7 @@
     \begin{itemize}
     \item Représentation des données
       % Comme détaillé dans le rapport pour rendre plus aisé les preuves j'ai préférer utiliser une représentation des données la plus simple possible cependant cela induit des redondances dans certaines preuves. Etant donné le trop grand nombre de syntaxes différentes pour les instructions en x86 il 'est pas possible de faire la même chose
-    \item Rendre le programme actuel plus combinatoire (bibliothèque de parseurs fonctionnels)
+    \item Rendre le programme actuel plus compositionnel
       %argument c'est parceque il y a trop de cas particuliers dans x86 comparé à MMIX
     \end{itemize}
   \end{block}
